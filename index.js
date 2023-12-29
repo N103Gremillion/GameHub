@@ -2,6 +2,7 @@ const canvas = document.querySelector(".myCanvas");
 const width = (canvas.width = window.innerWidth);
 const height = (canvas.height = window.innerHeight);
 const ctx = canvas.getContext("2d");
+const test = 1;
 
 let rect_x = 0;
 let rect_y = 0;
