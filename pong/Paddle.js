@@ -8,9 +8,13 @@ export default class Paddle extends Game_Object {
   }
 
   render(ctx){
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
   }
 
+  update(){
+    if (this.position.y > 0 && ){
+      
 }
 
 

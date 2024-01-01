@@ -8,8 +8,10 @@ export default class Ball extends Game_Object {
   }
   
   render(ctx){
+    ctx.beginPath();
     ctx.fillStyle = this.color;
-    ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
+    ctx.arc(this.position.x, this.position.y, this.radius, 0, 2*Math.PI);
+    ctx.fill();
   }
 }
 

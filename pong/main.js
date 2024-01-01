@@ -5,11 +5,11 @@ import Ball from './Ball.js';
 // add all object to keep track of what needs to be updated
 let pongGameManager = new Game_Manager; 
 pongGameManager.setup((gameObjects) => {
-  gameObjects.push(new Paddle(50, 100, 0, window.innerWidth/4, window.innerHeight/2, randomRGB()));
-  gameObjects.push(new Paddle(50, 100, 0, (window.innerWidth/4 + window.innerWidth/2), window.innerHeight/2, randomRGB()));
+  gameObjects.push(new Paddle(50, 100, 0, window.innerWidth/4 - 50, window.innerHeight/2 - 100, randomRGB()));
+  gameObjects.push(new Paddle(50, 100, 0, (window.innerWidth/4 + window.innerWidth/2) - 50, window.innerHeight/2 - 100, randomRGB()));
   gameObjects.push(new Ball(10,5,window.innerWidth/2,window.innerHeight/2,randomRGB));
 });
-console.log("YO");
+
 //loop
 pongGameManager.startGame();
 
