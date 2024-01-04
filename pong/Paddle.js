@@ -17,11 +17,12 @@ export default class Paddle extends Game_Object {
   update(){
     if (InputMapping[this.keys.UP] == true){
       this.position.y -= this.velocity;
+      console.log(this.position.y);
     }
     else if (InputMapping[this.keys.DOWN] == true){
       this.position.y += this.velocity;
+      console.log(this.position.y);
     }
-    console.log(this.position);
   } 
 }
 

@@ -8,7 +8,7 @@ export default class Game_Manager {
     this.gameObjects = [];
   }
 
-  startKeyMapping(InputsArray) {
+  inputHandling(InputsArray) {
       //track when a key is pressed (not for special keys like shift)
       document.body.addEventListener('keydown', function(event){
         const key = event.key.toLowerCase();
@@ -16,13 +16,20 @@ export default class Game_Manager {
         InputsArray[key] = true; 
         console.log(InputsArray[key]);
       });
-      
       document.body.addEventListener('keyup', function(event){
         const key = event.key.toLowerCase();
         console.log(key);
         InputsArray[key] = false; 
         console.log(InputsArray[key]);
       });
+      // keep track of when window is resized 
+      window.addEventListener('resize', handleResize(Game_Manager));
+
+      function handleResize(Game_Manager){
+         Game_Manager.canvas.width = window.innerWidth;
+         Game_Manager.canvas.height = window.innerHeight;  
+      }
+      
   }
 
   setup(setupTrigger) {

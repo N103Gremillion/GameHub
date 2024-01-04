@@ -17,7 +17,7 @@ pongGameManager.setup((gameObjects) => {
   let paddleHeight = WINDOW_HEIGHT * PADDLE_HEIGHT_PERCENTAGE;
   let radius = WINDOW_WIDTH * BALL_SIZE_PERCENTAGE;
   let ballVelocity = 5;
-  let paddleVelocity = 0;
+  let paddleVelocity = 5;
 
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, WINDOW_WIDTH/4 - paddleWidth, WINDOW_WIDTH/2 - paddleHeight, randomRGB(), 'w', 's'));
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, (WINDOW_WIDTH/4 + WINDOW_WIDTH/2) - paddleWidth, WINDOW_HEIGHT/2 - paddleHeight, randomRGB(),'arrowup', 'arrowdown'));
@@ -25,7 +25,7 @@ pongGameManager.setup((gameObjects) => {
 });
 
 // start reading input from keyboardMapping constants
-pongGameManager.startKeyMapping(InputMapping);
+pongGameManager.inputHandling(InputMapping, pongGameManager);
 
 //loop
 pongGameManager.startGame();
