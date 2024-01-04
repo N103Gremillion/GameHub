@@ -1,10 +1,12 @@
 import Game_Object from "./Game_Object.js";
+import { InputMapping } from "../KeyboardMapping.js";
 
 export default class Paddle extends Game_Object {
-  constructor(width, height,velocity,x,y,color){
+  constructor(width, height,velocity,x,y,color, UP, DOWN){
     super(x,y,color);
     this.size = {width, height};
     this.velocity = velocity;
+    this.keys = {UP, DOWN};
   }
 
   render(ctx){
@@ -13,8 +15,14 @@ export default class Paddle extends Game_Object {
   }
 
   update(){
-    if (this.position.y > 0 && ){
-      
+    if (InputMapping[this.keys.UP] == true){
+      this.position.y -= this.velocity;
+    }
+    else if (InputMapping[this.keys.DOWN] == true){
+      this.position.y += this.velocity;
+    }
+    console.log(this.position);
+  } 
 }
 
 
