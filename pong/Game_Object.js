@@ -4,12 +4,13 @@ export default class Game_Object {
     this.color = color;
   }
 
-  render(_ctx){ 
+  render(ctx){ 
   }
 
   update(){
   }
-
-  detectCollision(){
-  }
+  
+   adjustValues(newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight){
+   }
+  
 }

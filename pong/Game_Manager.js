@@ -1,36 +1,45 @@
-
 export default class Game_Manager {
   canvas = document.getElementById('game_canvas');
   ctx = this.canvas.getContext('2d');
   
-
-  constructor(){
-    this.gameObjects = [];
+  constructor() {
+    this.gameObjects = []; 
   }
 
-  inputHandling(InputsArray) {
-      //track when a key is pressed (not for special keys like shift)
-      document.body.addEventListener('keydown', function(event){
-        const key = event.key.toLowerCase();
-        console.log(key);
-        InputsArray[key] = true; 
-        console.log(InputsArray[key]);
-      });
-      document.body.addEventListener('keyup', function(event){
-        const key = event.key.toLowerCase();
-        console.log(key);
-        InputsArray[key] = false; 
-        console.log(InputsArray[key]);
-      });
-      // keep track of when window is resized 
-      window.addEventListener('resize', handleResize(Game_Manager));
+  inputHandling(InputsArray, Game_Manager) {
+    // Track when a key is pressed (not for special keys like shift)
+    document.body.addEventListener('keydown', function(event) {
+      const key = event.key.toLowerCase();
+      InputsArray[key] = true;  
+    });
 
-      function handleResize(Game_Manager){
-         Game_Manager.canvas.width = window.innerWidth;
-         Game_Manager.canvas.height = window.innerHeight;  
-      }
-      
+    document.body.addEventListener('keyup', function(event) {
+      const key = event.key.toLowerCase();
+      InputsArray[key] = false; 
+      console.log(InputsArray[key]);
+    });
+
+    // Keep track of when the window is resized 
+    window.addEventListener('resize', () => handleResize(Game_Manager));
+
+    function handleResize(Game_Manager) {
+      // get old windowsize
+      const oldCanvasWidth = Game_Manager.canvas.width;
+      const oldCanvasHeight = Game_Manager.canvas.height;
+      //console.log(oldCanvasWidth);
+      //console.log(oldCanvasHeight);
+      // Used to change the location of each element relative to the size of the window when being resized and there location
+      Game_Manager.setup((gameObjects) => {
+      Game_Manager.gameObjects.forEach((element) => {
+        //console.log(Game_Manager.canvas.width);
+        //console.log(Game_Manager.canvas.height);
+        element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
+        element.update();
+        element.render(Game_Manager.ctx);
+      });
+    });
   }
+}
 
   setup(setupTrigger) {
     this.canvas.width = window.innerWidth;
@@ -38,7 +47,7 @@ export default class Game_Manager {
     setupTrigger(this.gameObjects);
   }
 
-  startGame(){
+  startGame() {
     this.ctx.fillStyle = 'rgba(0, 0, 0, 255)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.gameObjects.forEach((element) => {
@@ -49,15 +58,11 @@ export default class Game_Manager {
       element.render(this.ctx);
     });
     
-    // using lambda to prevent over use and recursion error (this helps to only run startGame() when necessary
+    // Using lambda to prevent overuse and recursion error (this helps to only run startGame() when necessary)
     requestAnimationFrame(() => this.startGame());
-    
-  }
-
+  } 
+  
 }
-
-
-
 
 
 

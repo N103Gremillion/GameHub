@@ -15,15 +15,27 @@ export default class Paddle extends Game_Object {
   }
 
   update(){
-    if (InputMapping[this.keys.UP] == true){
+    if (InputMapping[this.keys.UP] == true && this.position.y > 0){
       this.position.y -= this.velocity;
-      console.log(this.position.y);
     }
-    else if (InputMapping[this.keys.DOWN] == true){
+    else if (InputMapping[this.keys.DOWN] == true && this.position.y < (window.innerHeight - this.size.height) ){
       this.position.y += this.velocity;
-      console.log(this.position.y);
     }
-  } 
+  }
+
+  adjustValues(newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight) {
+    const scaleX = newCanvasWidth / oldCanvasWidth;
+    const scaleY = newCanvasHeight / oldCanvasHeight;
+    const oldPaddleHeight = this.size.height;
+
+    // Adjust positions
+    this.position.x *= scaleX;
+    this.position.y *= scaleY;
+
+    // Adjust the size while maintaining aspect ratio 
+    this.size.width *= scaleX;
+    this.size.height = (newCanvasHeight * oldPaddleHeight) / oldCanvasHeight;
+}
 }
 
 

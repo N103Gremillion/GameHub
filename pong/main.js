@@ -3,9 +3,9 @@ import Paddle from './Paddle.js';
 import Ball from './Ball.js';
 import { InputMapping } from '../KeyboardMapping.js';
 
-const PADDLE_WIDTH_PERCENTAGE = .05;
+const PADDLE_WIDTH_PERCENTAGE = .03;
 const PADDLE_HEIGHT_PERCENTAGE = .1;
-const BALL_SIZE_PERCENTAGE = .03;
+const BALL_SIZE_PERCENTAGE = .0075;
 const WINDOW_WIDTH = window.innerWidth;
 const WINDOW_HEIGHT = window.innerHeight;
 
@@ -16,12 +16,17 @@ pongGameManager.setup((gameObjects) => {
   let paddleWidth = WINDOW_WIDTH * PADDLE_WIDTH_PERCENTAGE;
   let paddleHeight = WINDOW_HEIGHT * PADDLE_HEIGHT_PERCENTAGE;
   let radius = WINDOW_WIDTH * BALL_SIZE_PERCENTAGE;
-  let ballVelocity = 5;
-  let paddleVelocity = 5;
+  let ballVelocity = WINDOW_WIDTH/50 + WINDOW_HEIGHT/50;
+  let paddleVelocity = WINDOW_HEIGHT/100;
+  let paddle1X = WINDOW_WIDTH/4 - (paddleWidth*3);
+  let paddle2X = WINDOW_WIDTH/4 + WINDOW_WIDTH/2 + (paddleWidth * 2);
+  let paddleY = WINDOW_HEIGHT/2 - paddleHeight;
+  let ballX = WINDOW_WIDTH/2 - radius;
+  let ballY =  WINDOW_HEIGHT/2 - radius;
 
-  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, WINDOW_WIDTH/4 - paddleWidth, WINDOW_WIDTH/2 - paddleHeight, randomRGB(), 'w', 's'));
-  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, (WINDOW_WIDTH/4 + WINDOW_WIDTH/2) - paddleWidth, WINDOW_HEIGHT/2 - paddleHeight, randomRGB(),'arrowup', 'arrowdown'));
-  gameObjects.push(new Ball(radius, ballVelocity, WINDOW_WIDTH/2 - radius, WINDOW_HEIGHT/2 - radius, randomRGB()));
+  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, randomRGB(), 'w', 's'));
+  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, randomRGB(),'arrowup', 'arrowdown'));
+  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, randomRGB()));
 });
 
 // start reading input from keyboardMapping constants
