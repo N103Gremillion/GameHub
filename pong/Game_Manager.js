@@ -50,6 +50,7 @@ export default class Game_Manager {
   startGame() {
     this.ctx.fillStyle = 'rgba(0, 0, 0, 255)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
     this.gameObjects.forEach((element) => {
       element.update();
     });

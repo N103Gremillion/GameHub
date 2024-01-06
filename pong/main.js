@@ -16,17 +16,18 @@ pongGameManager.setup((gameObjects) => {
   let paddleWidth = WINDOW_WIDTH * PADDLE_WIDTH_PERCENTAGE;
   let paddleHeight = WINDOW_HEIGHT * PADDLE_HEIGHT_PERCENTAGE;
   let radius = WINDOW_WIDTH * BALL_SIZE_PERCENTAGE;
-  let ballVelocity = WINDOW_WIDTH/50 + WINDOW_HEIGHT/50;
+  let ballVelocity = WINDOW_WIDTH/400 + WINDOW_HEIGHT/400;
   let paddleVelocity = WINDOW_HEIGHT/100;
   let paddle1X = WINDOW_WIDTH/4 - (paddleWidth*3);
   let paddle2X = WINDOW_WIDTH/4 + WINDOW_WIDTH/2 + (paddleWidth * 2);
   let paddleY = WINDOW_HEIGHT/2 - paddleHeight;
   let ballX = WINDOW_WIDTH/2 - radius;
   let ballY =  WINDOW_HEIGHT/2 - radius;
-
+  let ballDirection = randomAngle(0, 360); 
+  
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, randomRGB(), 'w', 's'));
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, randomRGB(),'arrowup', 'arrowdown'));
-  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, randomRGB()));
+  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, randomRGB(), ballDirection));
 });
 
 // start reading input from keyboardMapping constants
@@ -43,4 +44,17 @@ function randomRGB() {
   return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
 }
 
+export function randomAngle(min, max){
+  if (min > max) {
+        [min, max] = [max, min];
+  } 
+  const range = (max - min);
+  const result = Math.floor(Math.random() * range) + min;
+  if (result <= 340 && result >= 200 || result <= 160 && result >= 20){
+    return result
+  }
+  else{
+    return randomAngle(0, 360);
+  }
+}
 
