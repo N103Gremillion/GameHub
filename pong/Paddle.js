@@ -35,7 +35,10 @@ export default class Paddle extends Game_Object {
     // Adjust the size while maintaining aspect ratio 
     this.size.width *= scaleX;
     this.size.height = (newCanvasHeight * oldPaddleHeight) / oldCanvasHeight;
-}
+  }
+
+  checkCollision(otherObject) {
+  }
 }
 
 

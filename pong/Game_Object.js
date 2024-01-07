@@ -10,7 +10,10 @@ export default class Game_Object {
   update(){
   }
   
-   adjustValues(newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight){
-   }
-  
+  adjustValues(newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight){
+  }
+
+  checkCollision(otherObject){
+  }
 }
+

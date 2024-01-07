@@ -25,14 +25,10 @@ export default class Game_Manager {
     function handleResize(Game_Manager) {
       // get old windowsize
       const oldCanvasWidth = Game_Manager.canvas.width;
-      const oldCanvasHeight = Game_Manager.canvas.height;
-      //console.log(oldCanvasWidth);
-      //console.log(oldCanvasHeight);
+      const oldCanvasHeight = Game_Manager.canvas.height; 
       // Used to change the location of each element relative to the size of the window when being resized and there location
       Game_Manager.setup((gameObjects) => {
       Game_Manager.gameObjects.forEach((element) => {
-        //console.log(Game_Manager.canvas.width);
-        //console.log(Game_Manager.canvas.height);
         element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
         element.update();
         element.render(Game_Manager.ctx);
@@ -50,6 +46,15 @@ export default class Game_Manager {
   startGame() {
     this.ctx.fillStyle = 'rgba(0, 0, 0, 255)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // check each possible collision in gameObjects
+    for (let i = 0; i < this.gameObjects.length; i++) {
+      for (let j = 0; j < this.gameObjects.length; j++){
+        if (this.gameObjects[i] !== this.gameObjects[j]){
+          this.gameObjects[i].checkCollision(this.gameObjects[j]);
+        }
+      }
+    }
 
     this.gameObjects.forEach((element) => {
       element.update();

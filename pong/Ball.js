@@ -1,5 +1,5 @@
 import Game_Object from "./Game_Object.js";
-import { randomAngle} from "./main.js";
+import { randomAngle } from "./main.js";
 
 export default class Ball extends Game_Object {
   constructor(radius,velocity,x,y,color, direction){
@@ -85,9 +85,37 @@ export default class Ball extends Game_Object {
     this.position.y = window.innerHeight/2 - this.radius;
     setTimeout(() => {
       this.direction = randomAngle(0, 359);
+      console.log(this.direction);
       this.velocity = oldVelo;
     }, 1000);
   }
+  
+  checkCollision(otherObject) {
+    const centerXofPaddle = (otherObject.position.x + otherObject.size.width/2);
+    const centerYofPaddle = (otherObject.position.y + otherObject.size.height/2);
+    const centerXofBall = this.position.x + this.radius;
+    const centerYofBall = this.position.y + this.radius;
+    // find the distance between there center position
+    const xDistanceBetweenObjects = Math.abs(centerXofBall - centerXofPaddle);
+    const yDistanceBetweenObjects = Math.abs(centerYofBall - centerYofPaddle);
+    
+    const minimumXDistance = (this.radius  + otherObject.size.width/2);
+    const minimumYDistance = (this.radius + otherObject.size.height/2);
+
+    // when ball collides with part of Paddle
+    if (xDistanceBetweenObjects < minimumXDistance && yDistanceBetweenObjects < otherObject.size.height){
+      // right side of Paddle
+      if (centerXofBall > (centerXofPaddle + this.radius)){
+        console.log("Hello"); 
+        this.direction = this.findResultingAngle_VerticalWall(this.direction , Math.PI);
+        this.position.x =  otherObject.position.x + otherObject.size.width + this.radius; 
+      }
+      //left side of Paddle
+      else if (centerXofBall < centerXofPaddle){
+        console.log("YOLO");
+        this.direction = this.findResultingAngle_VerticalWall(this.direction, Math.PI);
+        this.position.x  = (otherObject.position.x - this.radius * 2);
+      }
+    } 
+  }
 }
-
-
