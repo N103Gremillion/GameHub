@@ -84,7 +84,7 @@ export default class Ball extends Game_Object {
     this.position.x = window.innerWidth/2 - this.radius;
     this.position.y = window.innerHeight/2 - this.radius;
     setTimeout(() => {
-      this.direction = randomAngle(0, 359);
+      this.direction = randomAngle(0, 359)/180 * Math.PI;
       console.log(this.direction);
       this.velocity = oldVelo;
     }, 1000);
