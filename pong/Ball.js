@@ -103,18 +103,30 @@ export default class Ball extends Game_Object {
     const minimumYDistance = (this.radius + otherObject.size.height/2);
 
     // when ball collides with part of Paddle
-    if (xDistanceBetweenObjects < minimumXDistance && yDistanceBetweenObjects < otherObject.size.height){
+    if (xDistanceBetweenObjects < minimumXDistance && yDistanceBetweenObjects < otherObject.size.height/2){
       // right side of Paddle
-      if (centerXofBall > (centerXofPaddle + this.radius)){
-        console.log("Hello"); 
+      if (centerXofBall - this.radius > centerXofPaddle + otherObject.size.width/10){
         this.direction = this.findResultingAngle_VerticalWall(this.direction , Math.PI);
         this.position.x =  otherObject.position.x + otherObject.size.width + this.radius; 
       }
       //left side of Paddle
-      else if (centerXofBall < centerXofPaddle){
-        console.log("YOLO");
+      else if (centerXofBall + this.radius < centerXofPaddle - otherObject.size.width/10){
         this.direction = this.findResultingAngle_VerticalWall(this.direction, Math.PI);
         this.position.x  = (otherObject.position.x - this.radius * 2);
+      }
+      // top side of Paddle
+      else if (centerYofBall + this.radius < centerYofPaddle + otherObject.size.height/2 
+        && centerXofBall - this.radius < centerXofPaddle + (otherObject.size.width - otherObject.size.width/10) 
+        && centerXofBall + this.radius > centerXofPaddle - (otherObject.size.width - otherObject.size.width/10)){
+        this.direction = this.findResultingAngle_HorizontalWall(this.direction, Math.PI);
+        this.position.y = (otherObject.position.y - this.radius * 2);
+      }
+      // bottom side of Paddle
+      else if (centerYofBall - this.radius > centerYofPaddle - otherObject.size.height/2 
+        && centerXofBall - this.radius < centerXofPaddle + (otherObject.size.width - otherObject.size.width/10) 
+        && centerXofBall + this.radius > centerXofPaddle - (otherObject.size.width - otherObject.size.width/10)){
+        this.direction = this.findResultingAngle_HorizontalWall(this.direction, Math.PI);
+        this.position.y = (otherObject.position.y + otherObject.size.height + this.radius);
       }
     } 
   }
