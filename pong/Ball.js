@@ -13,7 +13,7 @@ export default class Ball extends Game_Object {
   }
   
   render(ctx){
-    // this.findNextImage(this.ballImage.src);
+    this.findNextImage(this.ballImage.src);
     ctx.drawImage(
       this.ballImage,
       this.position.x - this.radius, 
@@ -167,6 +167,11 @@ export default class Ball extends Game_Object {
       "./pongSprites/ball5.png",
       "./pongSprites/ball6.png"
     ];
+    
+
+    if (this.ballImage.src.split("/").slice(-1)[0] === BALL_SPRITES[0].split("/").slice(-1)[0]){
+      console.log("True");
+    }
   console.log(this.ballImage.src.split("/").slice(-1)[0]);
   console.log(BALL_SPRITES[0].split("/").slice(-1)[0]);
   }      
