@@ -5,7 +5,7 @@ import { InputMapping } from '../KeyboardMapping.js';
 
 const PADDLE_WIDTH_PERCENTAGE = .03;
 const PADDLE_HEIGHT_PERCENTAGE = .1;
-const BALL_SIZE_PERCENTAGE = .0075;
+const BALL_SIZE_PERCENTAGE = .01;
 const WINDOW_WIDTH = window.innerWidth;
 const WINDOW_HEIGHT = window.innerHeight;
 
@@ -26,11 +26,11 @@ pongGameManager.setup((gameObjects) => {
   let paddleY = WINDOW_HEIGHT/2 - paddleHeight;
   let ballX = WINDOW_WIDTH/2 - radius;
   let ballY =  WINDOW_HEIGHT/2 - radius;
-  let ballDirection = randomAngle(0, 360); 
+  let ballDirection = randomAngle(0, 360);
   
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, randomRGB(), 'w', 's'));
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, randomRGB(),'arrowup', 'arrowdown'));
-  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, randomRGB(), ballDirection));
+  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection));
 });
 
 // start reading input from keyboardMapping constants

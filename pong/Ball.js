@@ -2,18 +2,23 @@ import Game_Object from "./Game_Object.js";
 import { randomAngle } from "./main.js";
 
 export default class Ball extends Game_Object {
-  constructor(radius,velocity,x,y,color, direction){
-    super(x,y,color);
+  constructor(radius, velocity, x, y, direction){
+    // list of sprite to use in animation 
+    super(x,y);
     this.radius = radius;
     this.velocity = velocity;
     this.direction = (direction/180 *Math.PI); 
+    this.ballImage = new Image();
+    this.ballImage.src = "./pongSprites/ball0.png"; 
   }
   
   render(ctx){
-    ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.arc(this.position.x, this.position.y, this.radius, 0, 2*Math.PI);
-    ctx.fill();
+    // this.findNextImage(this.ballImage.src);
+    ctx.drawImage(
+      this.ballImage,
+      this.position.x - this.radius, 
+      this.position.y - this.radius, 
+      this.radius * 2, this.radius * 2);
   }
 
   update(){
@@ -103,31 +108,66 @@ export default class Ball extends Game_Object {
     const minimumYDistance = (this.radius + otherObject.size.height/2);
 
     // when ball collides with part of Paddle
-    if (xDistanceBetweenObjects < minimumXDistance && yDistanceBetweenObjects < otherObject.size.height/2){
+    if (xDistanceBetweenObjects <= minimumXDistance && yDistanceBetweenObjects <= otherObject.size.height/2){
       // right side of Paddle
-      if (centerXofBall - this.radius > centerXofPaddle + otherObject.size.width/10){
-        this.direction = this.findResultingAngle_VerticalWall(this.direction , Math.PI);
-        this.position.x =  otherObject.position.x + otherObject.size.width + this.radius; 
+      if (centerXofBall - this.radius >= (centerXofPaddle + otherObject.size.width/10) && this.position.y < (otherObject.position.y + otherObject.size.height) && (this.position.y + this.radius*2) > otherObject.position.y){
+        this.bounceRight(otherObject);       
       }
       //left side of Paddle
       else if (centerXofBall + this.radius < centerXofPaddle - otherObject.size.width/10){
-        this.direction = this.findResultingAngle_VerticalWall(this.direction, Math.PI);
-        this.position.x  = (otherObject.position.x - this.radius * 2);
+        this.bounceLeft(otherObject);        
       }
       // top side of Paddle
       else if (centerYofBall + this.radius < centerYofPaddle + otherObject.size.height/2 
         && centerXofBall - this.radius < centerXofPaddle + (otherObject.size.width - otherObject.size.width/10) 
         && centerXofBall + this.radius > centerXofPaddle - (otherObject.size.width - otherObject.size.width/10)){
-        this.direction = this.findResultingAngle_HorizontalWall(this.direction, Math.PI);
-        this.position.y = (otherObject.position.y - this.radius * 2);
-      }
+        this.bounceUp(otherObject);
+        }
       // bottom side of Paddle
       else if (centerYofBall - this.radius > centerYofPaddle - otherObject.size.height/2 
         && centerXofBall - this.radius < centerXofPaddle + (otherObject.size.width - otherObject.size.width/10) 
         && centerXofBall + this.radius > centerXofPaddle - (otherObject.size.width - otherObject.size.width/10)){
-        this.direction = this.findResultingAngle_HorizontalWall(this.direction, Math.PI);
-        this.position.y = (otherObject.position.y + otherObject.size.height + this.radius);
+        this.bounceDown(otherObject);
       }
     } 
   }
+
+  bounceRight(otherObject){
+    this.direction = this.findResultingAngle_VerticalWall(this.direction , Math.PI);
+    this.position.x =  otherObject.position.x + otherObject.size.width + this.radius; 
+  }
+  
+  bounceLeft(otherObject){
+    this.direction = this.findResultingAngle_VerticalWall(this.direction, Math.PI);
+    this.position.x  = (otherObject.position.x - this.radius * 2);
+  }
+
+  bounceUp(otherObject){
+    otherObject.velocity = 0;
+    this.direction = this.findResultingAngle_HorizontalWall(this.direction, 0);
+    this.position.y = (otherObject.position.y - this.radius * 2);
+    otherObject.velocity = window.innerHeight/100;
+  }
+  
+  bounceDown(otherObject){
+    otherObject.velocity = 0;
+    this.direction = this.findResultingAngle_HorizontalWall(this.direction, 0);
+    this.position.y = (otherObject.position.y + otherObject.size.height + this.radius*2);
+    otherObject.velocity = window.innerHeight/100;
+  }
+
+  findNextImage(currentImage){
+    console.log("YO");
+    const BALL_SPRITES = [
+      "./pongSprites/ball0.png",
+      "./pongSprites/ball1.png",
+      "./pongSprites/ball2.png",
+      "./pongSprites/ball3.png",
+      "./pongSprites/ball4.png",
+      "./pongSprites/ball5.png",
+      "./pongSprites/ball6.png"
+    ];
+  console.log(this.ballImage.src.split("/").slice(-1)[0]);
+  console.log(BALL_SPRITES[0].split("/").slice(-1)[0]);
+  }      
 }
