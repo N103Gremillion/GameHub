@@ -1,4 +1,4 @@
-
+import { Manager } from "./Game_Manager.js";
 
 export default class Game_Object {
   static baseId = 0;
@@ -7,8 +7,7 @@ export default class Game_Object {
     this.objectId = this.generateObjectId();
     this.position = { x, y };
     this.tag = tag; 
-    
-    console.log(this.objectId);
+    Manager.collisionHandler.setupMapping(this);
     }
 
   generateObjectId(){ 
