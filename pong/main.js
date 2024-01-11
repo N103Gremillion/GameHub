@@ -1,7 +1,9 @@
-import Game_Manager from './Game_Manager.js';
+import { Manager } from '../Game_Manager.js';
 import Paddle from './Paddle.js';
 import Ball from './Ball.js';
+import CollisionHandler from '../CollisionHandler.js';
 import { InputMapping } from '../KeyboardMapping.js';
+
 
 const PADDLE_WIDTH_PERCENTAGE = .03;
 const PADDLE_HEIGHT_PERCENTAGE = .1;
@@ -9,13 +11,8 @@ const BALL_SIZE_PERCENTAGE = .01;
 const WINDOW_WIDTH = window.innerWidth;
 const WINDOW_HEIGHT = window.innerHeight;
 
-let pongGameManager = new Game_Manager; 
-
-// test random function
-let test = randomAngle(0, 359);
-console.log(test);
 // setup gameObjects
-pongGameManager.setup((gameObjects) => {
+Manager.setup((gameObjects) => {
   let paddleWidth = WINDOW_WIDTH * PADDLE_WIDTH_PERCENTAGE;
   let paddleHeight = WINDOW_HEIGHT * PADDLE_HEIGHT_PERCENTAGE;
   let radius = WINDOW_WIDTH * BALL_SIZE_PERCENTAGE;
@@ -28,16 +25,17 @@ pongGameManager.setup((gameObjects) => {
   let ballY =  WINDOW_HEIGHT/2 - radius;
   let ballDirection = randomAngle(0, 360);
   
-  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, randomRGB(), 'w', 's'));
-  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, randomRGB(),'arrowup', 'arrowdown'));
-  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection));
+  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, randomRGB(), 'w', 's', "Paddle"));
+  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, randomRGB(),'arrowup', 'arrowdown', "Paddle"));
+  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection, "Ball"));
+  // testing the gameObjects ids
 });
 
 // start reading input from keyboardMapping constants
-pongGameManager.inputHandling(InputMapping, pongGameManager);
+Manager.inputHandling(InputMapping, Manager);
 
 //loop
-pongGameManager.startGame();
+Manager.startGame();
 
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -47,26 +45,26 @@ function randomRGB() {
   return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
 }
 
-export function randomAngle(min, max){
+function randomAngle(min, max){
   if (min > max) {
         [min, max] = [max, min];
   } 
   const range = (max - min);
-  const result = Math.floor(Math.random() * range) + min;
-  if (result <= 320 && result >= 220 || result <= 140 && result >= 40){
-    return result
+  const leftSide = Math.floor(Math.random() * range) + min;
+  const rightSide = leftSide - 180;
+  const random = Math.random() * (2 - 1) + 1;
+  if (random === 1){
+    return leftSide;
   }
   else{
-    return randomAngle(0, 360);
-  }
+    return rightSide;
+  } 
 }
 
-export function randomAngleLeft(min, max){
-  
+export {
+  randomRGB,
+  randomAngle
 }
 
-export function randomAngleRight(min, max){
-
-}
 
 

@@ -1,7 +1,18 @@
+
+
 export default class Game_Object {
-  constructor(x, y, color){
+  static baseId = 0;
+
+  constructor(x, y, tag){
+    this.objectId = this.generateObjectId();
     this.position = { x, y };
-    this.color = color;
+    this.tag = tag; 
+    
+    console.log(this.objectId);
+    }
+
+  generateObjectId(){ 
+    return Game_Object.baseId ++;
   }
 
   render(ctx){ 

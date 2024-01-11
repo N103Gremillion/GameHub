@@ -1,10 +1,13 @@
+import CollisionHandler from "./CollisionHandler.js";
+
 export default class Game_Manager {
+  collisionHandler = new CollisionHandler();
   canvas = document.getElementById('game_canvas');
   ctx = this.canvas.getContext('2d');
-  
+
   constructor() {
     this.gameObjects = []; 
-  }
+}
 
   inputHandling(InputsArray, Game_Manager) {
     // Track when a key is pressed (not for special keys like shift)
@@ -15,8 +18,7 @@ export default class Game_Manager {
 
     document.body.addEventListener('keyup', function(event) {
       const key = event.key.toLowerCase();
-      InputsArray[key] = false; 
-      console.log(InputsArray[key]);
+      InputsArray[key] = false;  
     });
 
     // Keep track of when the window is resized 
@@ -47,15 +49,6 @@ export default class Game_Manager {
     this.ctx.fillStyle = 'rgba(0, 0, 0, 255)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // check each possible collision in gameObjects
-    for (let i = 0; i < this.gameObjects.length; i++) {
-      for (let j = 0; j < this.gameObjects.length; j++){
-        if (this.gameObjects[i] !== this.gameObjects[j]){
-          this.gameObjects[i].checkCollision(this.gameObjects[j]);
-        }
-      }
-    }
-
     this.gameObjects.forEach((element) => {
       element.update();
     });
@@ -69,6 +62,10 @@ export default class Game_Manager {
   } 
   
 }
+
+const Manager = new Game_Manager();
+
+export{ Manager };
 
 
 

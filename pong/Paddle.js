@@ -1,9 +1,10 @@
-import Game_Object from "./Game_Object.js";
+import Game_Object from "../Game_Object.js";
 import { InputMapping } from "../KeyboardMapping.js";
 
 export default class Paddle extends Game_Object {
-  constructor(width, height,velocity,x,y,color, UP, DOWN){
-    super(x,y,color);
+  constructor(width, height,velocity,x,y,color, UP, DOWN, tag){
+    super(x,y, tag);
+    this.color = color;
     this.size = {width, height};
     this.velocity = velocity;
     this.keys = {UP, DOWN};
@@ -35,9 +36,6 @@ export default class Paddle extends Game_Object {
     // Adjust the size while maintaining aspect ratio 
     this.size.width *= scaleX;
     this.size.height = (newCanvasHeight * oldPaddleHeight) / oldCanvasHeight;
-  }
-
-  checkCollision(otherObject) {
   }
 }
 

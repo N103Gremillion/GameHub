@@ -1,10 +1,9 @@
-import Game_Object from "./Game_Object.js";
+import Game_Object from "../Game_Object.js";
 import { randomAngle } from "./main.js";
 
 export default class Ball extends Game_Object {
-  constructor(radius, velocity, x, y, direction){
-    // list of sprite to use in animation 
-    super(x,y);
+  constructor(radius, velocity, x, y, direction, tag){ 
+    super(x,y,tag);
     this.radius = radius;
     this.velocity = velocity;
     this.direction = (direction/180 *Math.PI); 
@@ -89,48 +88,10 @@ export default class Ball extends Game_Object {
     this.position.x = window.innerWidth/2 - this.radius;
     this.position.y = window.innerHeight/2 - this.radius;
     setTimeout(() => {
-      this.direction = randomAngle(0, 359)/180 * Math.PI;
-      console.log(this.direction);
+      this.direction = randomAngle(200, 340)/180 * Math.PI; 
       this.velocity = oldVelo;
     }, 1000);
-  }
-  
-  checkCollision(otherObject) {
-    const centerXofPaddle = (otherObject.position.x + otherObject.size.width/2);
-    const centerYofPaddle = (otherObject.position.y + otherObject.size.height/2);
-    const centerXofBall = this.position.x + this.radius;
-    const centerYofBall = this.position.y + this.radius;
-    // find the distance between there center position
-    const xDistanceBetweenObjects = Math.abs(centerXofBall - centerXofPaddle);
-    const yDistanceBetweenObjects = Math.abs(centerYofBall - centerYofPaddle);
-    
-    const minimumXDistance = (this.radius  + otherObject.size.width/2);
-    const minimumYDistance = (this.radius + otherObject.size.height/2);
-
-    // when ball collides with part of Paddle
-    if (xDistanceBetweenObjects <= minimumXDistance && yDistanceBetweenObjects <= otherObject.size.height/2){
-      // right side of Paddle
-      if (centerXofBall - this.radius >= (centerXofPaddle + otherObject.size.width/10) && this.position.y < (otherObject.position.y + otherObject.size.height) && (this.position.y + this.radius*2) > otherObject.position.y){
-        this.bounceRight(otherObject);       
-      }
-      //left side of Paddle
-      else if (centerXofBall + this.radius < centerXofPaddle - otherObject.size.width/10){
-        this.bounceLeft(otherObject);        
-      }
-      // top side of Paddle
-      else if (centerYofBall + this.radius < centerYofPaddle + otherObject.size.height/2 
-        && centerXofBall - this.radius < centerXofPaddle + (otherObject.size.width - otherObject.size.width/10) 
-        && centerXofBall + this.radius > centerXofPaddle - (otherObject.size.width - otherObject.size.width/10)){
-        this.bounceUp(otherObject);
-        }
-      // bottom side of Paddle
-      else if (centerYofBall - this.radius > centerYofPaddle - otherObject.size.height/2 
-        && centerXofBall - this.radius < centerXofPaddle + (otherObject.size.width - otherObject.size.width/10) 
-        && centerXofBall + this.radius > centerXofPaddle - (otherObject.size.width - otherObject.size.width/10)){
-        this.bounceDown(otherObject);
-      }
-    } 
-  }
+  } 
 
   bounceRight(otherObject){
     this.direction = this.findResultingAngle_VerticalWall(this.direction , Math.PI);
@@ -156,9 +117,8 @@ export default class Ball extends Game_Object {
     otherObject.velocity = window.innerHeight/100;
   }
 
-  findNextImage(currentImage){
-    console.log("YO");
-    const BALL_SPRITES = [
+  findNextImage(){
+      const BALL_SPRITES = [
       "./pongSprites/ball0.png",
       "./pongSprites/ball1.png",
       "./pongSprites/ball2.png",
@@ -168,11 +128,15 @@ export default class Ball extends Game_Object {
       "./pongSprites/ball6.png"
     ];
     
-
-    if (this.ballImage.src.split("/").slice(-1)[0] === BALL_SPRITES[0].split("/").slice(-1)[0]){
-      console.log("True");
+    //get the index of the currentImage
+    const currentIndex = BALL_SPRITES.indexOf(this.ballImage.src.split("/").slice(-1)[0]);   
+    if (currentIndex === BALL_SPRITES.length - 1){
+      this.ballImgae.src = BALL_SPRITES[0];
     }
-  console.log(this.ballImage.src.split("/").slice(-1)[0]);
-  console.log(BALL_SPRITES[0].split("/").slice(-1)[0]);
+
+    if (this.ballImage.src.split("/").slice(-1)[0] === BALL_SPRITES[0].split("/").slice(-1)[0]){ 
+    }
+  //console.log(this.ballImage.src.split("/").slice(-1)[0]);
+  //console.log(BALL_SPRITES[0].split("/").slice(-1)[0]);
   }      
 }
