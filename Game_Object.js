@@ -6,7 +6,7 @@ export default class Game_Object {
   constructor(x, y, tag){
     this.objectId = this.generateObjectId();
     this.position = { x, y };
-    this.tag = tag; 
+    this.tag = tag;  
     Manager.collisionHandler.setupMapping(this);
     }
 
@@ -24,6 +24,12 @@ export default class Game_Object {
   }
 
   checkCollision(otherObject){
+  }
+
+  getCollisionBox(){ 
+  }
+
+  onCollision(otherObject){
   }
 }
 

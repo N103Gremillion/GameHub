@@ -37,6 +37,13 @@ export default class Paddle extends Game_Object {
     this.size.width *= scaleX;
     this.size.height = (newCanvasHeight * oldPaddleHeight) / oldCanvasHeight;
   }
+
+  getCollisionBox(){
+    const topLeft = {x : this.position.x, y : this.position.y};
+    const bottomRight = { x : this.position.x + this.size.width, y : this.position.y + this.size.height};
+    return {topLeft, bottomRight};
+  }
+
 }
 
 

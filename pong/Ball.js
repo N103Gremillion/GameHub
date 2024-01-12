@@ -9,7 +9,7 @@ export default class Ball extends Game_Object {
     this.direction = (direction/180 *Math.PI); 
     this.ballImage = new Image();
     this.ballImage.src = "./pongSprites/ball0.png"; 
-  }
+    }
   
   render(ctx){
     this.findNextImage(this.ballImage.src);
@@ -138,5 +138,16 @@ export default class Ball extends Game_Object {
     }
   //console.log(this.ballImage.src.split("/").slice(-1)[0]);
   //console.log(BALL_SPRITES[0].split("/").slice(-1)[0]);
-  }      
+  }    
+  
+  getCollisionBox(){
+    const topLeft = { x : this.position.x, y : this.position.y};
+    const bottomRight = { x : this.position.x + (this.radius * 2), y : this.position.y + (this.radius * 2) };
+
+    return { topLeft, bottomRight };
+  }
+  
+  onCollision(otherObject){
+    console.log("True");
+  }
 }

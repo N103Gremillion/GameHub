@@ -1,7 +1,6 @@
 import { Manager } from '../Game_Manager.js';
 import Paddle from './Paddle.js';
 import Ball from './Ball.js';
-import CollisionHandler from '../CollisionHandler.js';
 import { InputMapping } from '../KeyboardMapping.js';
 
 
@@ -23,7 +22,7 @@ Manager.setup((gameObjects) => {
   let paddleY = WINDOW_HEIGHT/2 - paddleHeight;
   let ballX = WINDOW_WIDTH/2 - radius;
   let ballY =  WINDOW_HEIGHT/2 - radius;
-  let ballDirection = randomAngle(0, 360);
+  let ballDirection = randomAngle(200, 340);
   
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, randomRGB(), 'w', 's', "Paddle"));
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, randomRGB(),'arrowup', 'arrowdown', "Paddle"));
@@ -34,8 +33,11 @@ Manager.setup((gameObjects) => {
 // start reading input from keyboardMapping constants
 Manager.inputHandling(InputMapping, Manager);
 
+//A list of the import tags that should be checked for collisions
+const collisionTags = ["Ball", "Paddle"];
+
 //loop
-Manager.startGame();
+Manager.startGame(collisionTags);
 
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;

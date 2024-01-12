@@ -34,10 +34,10 @@ export default class Game_Manager {
         element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
         element.update();
         element.render(Game_Manager.ctx);
+        });
       });
-    });
+    }
   }
-}
 
   setup(setupTrigger) {
     this.canvas.width = window.innerWidth;
@@ -45,21 +45,37 @@ export default class Game_Manager {
     setupTrigger(this.gameObjects);
   }
 
-  startGame() {
+  startGame(tagsToCheck) {
     this.ctx.fillStyle = 'rgba(0, 0, 0, 255)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
+    //update game
     this.gameObjects.forEach((element) => {
       element.update();
     });
+   
+    this.performCollisionChecking(tagsToCheck);
 
+    //draw game
     this.gameObjects.forEach((element) => {
       element.render(this.ctx);
     });
     
     // Using lambda to prevent overuse and recursion error (this helps to only run startGame() when necessary)
-    requestAnimationFrame(() => this.startGame());
+    requestAnimationFrame(() => this.startGame(tagsToCheck));
   } 
+
+  performCollisionChecking(tagsToCheck){
+    
+    // looping through the object where collisions matter
+    for (let i = 0; i < tagsToCheck.length; i++) {
+      for (let j = i + 1; j < tagsToCheck.length; j++) {
+        const tag1 = tagsToCheck[i];
+        const tag2 = tagsToCheck[j];
+
+        this.collisionHandler.isColliding(tag1, tag2);
+      }
+    }
+  }
   
 }
 
