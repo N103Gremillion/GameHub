@@ -54,7 +54,8 @@ function randomAngle(min, max){
   const range = (max - min);
   const leftSide = Math.floor(Math.random() * range) + min;
   const rightSide = leftSide - 180;
-  const random = Math.random() * (2 - 1) + 1;
+  const random = Math.floor(Math.random() * (3 - 1));
+  console.log(random);
   if (random === 1){
     return leftSide;
   }

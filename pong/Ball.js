@@ -141,13 +141,17 @@ export default class Ball extends Game_Object {
   }    
   
   getCollisionBox(){
-    const topLeft = { x : this.position.x, y : this.position.y};
-    const bottomRight = { x : this.position.x + (this.radius * 2), y : this.position.y + (this.radius * 2) };
+    const topLeft = { x : this.position.x - this.radius, y : this.position.y - this.radius};
+    const bottomRight = { x : this.position.x + (this.radius), y : this.position.y + (this.radius) };
 
     return { topLeft, bottomRight };
   }
   
   onCollision(otherObject){
     console.log("True");
+    const oldVelo = this.velocity;
+    this.velocity = 0;
+    //this.position.x -= oldVelo * Math.sin(this.direction);
+    //this.position.y -= oldVelo * Math.cos(this.direction);
   }
 }
