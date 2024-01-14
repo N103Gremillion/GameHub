@@ -4,11 +4,12 @@ import Ball from './Ball.js';
 import { InputMapping } from '../KeyboardMapping.js';
 
 
-const PADDLE_WIDTH_PERCENTAGE = .03;
+const PADDLE_WIDTH_PERCENTAGE = .05;
 const PADDLE_HEIGHT_PERCENTAGE = .1;
 const BALL_SIZE_PERCENTAGE = .01;
 const WINDOW_WIDTH = window.innerWidth;
 const WINDOW_HEIGHT = window.innerHeight;
+const collisionTags = ["Ball", "Paddle"];
 
 // setup gameObjects
 Manager.setup((gameObjects) => {
@@ -24,17 +25,17 @@ Manager.setup((gameObjects) => {
   let ballY =  WINDOW_HEIGHT/2 - radius;
   let ballDirection = randomAngle(200, 340);
   
-  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, randomRGB(), 'w', 's', "Paddle"));
-  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, randomRGB(),'arrowup', 'arrowdown', "Paddle"));
+  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, "./pongSprites/superG1.png", 'w', 's', "Paddle"));
+  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, "./pongSprites/goku1.png",'arrowup', 'arrowdown', "Paddle"));
   gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection, "Ball"));
   // testing the gameObjects ids
 });
 
+//backgroundImage
+Manager.loadBackgroundImage("./pongSprites/background.gif", collisionTags);
+
 // start reading input from keyboardMapping constants
 Manager.inputHandling(InputMapping, Manager);
-
-//A list of the import tags that should be checked for collisions
-const collisionTags = ["Ball", "Paddle"];
 
 //loop
 Manager.startGame(collisionTags);

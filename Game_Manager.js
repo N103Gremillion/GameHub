@@ -4,10 +4,19 @@ export default class Game_Manager {
   collisionHandler = new CollisionHandler();
   canvas = document.getElementById('game_canvas');
   ctx = this.canvas.getContext('2d');
+  backgroundImage = new Image();
 
   constructor() {
     this.gameObjects = []; 
-}
+  }
+
+  //input backgroundImage
+  loadBackgroundImage(imageSrc, collisionTags) {
+    this.backgroundImage.onload = () => {
+      requestAnimationFrame(() => this.startGame(collisionTags));
+    };
+    this.backgroundImage.src = imageSrc;
+  }
 
   inputHandling(InputsArray, Game_Manager) {
     // Track when a key is pressed (not for special keys like shift)
@@ -46,8 +55,8 @@ export default class Game_Manager {
   }
 
   startGame(tagsToCheck) {
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 255)';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
     //update game
     this.gameObjects.forEach((element) => {
       element.update();
