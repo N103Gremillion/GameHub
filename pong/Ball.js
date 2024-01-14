@@ -150,8 +150,32 @@ export default class Ball extends Game_Object {
   onCollision(otherObject){
     console.log("True");
     const oldVelo = this.velocity;
-    this.velocity = 0;
-    //this.position.x -= oldVelo * Math.sin(this.direction);
-    //this.position.y -= oldVelo * Math.cos(this.direction);
+    //this.velocity = 0;
+    this.position.x -= 2 * (oldVelo * Math.sin(this.direction));
+    this.position.y -= 2 * (oldVelo * Math.cos(this.direction));
+    // if it hits the top of a Paddle
+    const initialAngle = this.direction; 
+    if ((this.position.y + this.radius) < otherObject.position.y){
+      console.log(this.position.y + this.radius);
+      console.log(otherObject.position.y);
+      console.log("top");
+      this.direction = this.findResultingAngle_HorizontalWall(initialAngle, 0);
+    }
+    // if it hits the bottom of the Paddle
+    else if (this.position.y - this.radius > otherObject.position.y + otherObject.size.height){
+      console.log("bottom");
+      this.direction = this.findResultingAngle_HorizontalWall(initialAngle, 0);
+    } 
+
+    // if it hits the right side
+    else if (this.position.x - this.radius > otherObject.position.x + otherObject.size.width){
+      console.log("right");
+      this.direction = this.findResultingAngle_VerticalWall(initialAngle, Math.PI);
+    }
+    // if it hits the left side
+    else if (this.position.x + this.radius < otherObject.position.x){
+      console.log("left");
+      this.direction = this.findResultingAngle_VerticalWall(initialAngle, Math.PI); 
+    }
   }
 }
