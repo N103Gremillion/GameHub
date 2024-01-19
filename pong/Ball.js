@@ -2,19 +2,20 @@ import Game_Object from "../Game_Object.js";
 import { randomAngle } from "./main.js";
 
 export default class Ball extends Game_Object {
-  constructor(radius, velocity, x, y, direction, tag){ 
+  constructor(radius, velocity, x, y, direction, tag, spriteArray){ 
     super(x,y,tag);
     this.radius = radius;
     this.velocity = velocity;
     this.direction = (direction/180 *Math.PI); 
-    this.ballImage = new Image();
-    this.ballImage.src = "./pongSprites/ball0.png"; 
+    this.image = new Image();
+    this.spriteArray = spriteArray;
+    this.image.src = spriteArray[0]; 
+    this.timer = 0;
     }
   
   render(ctx){
-    this.findNextImage(this.ballImage.src);
     ctx.drawImage(
-      this.ballImage,
+      this.image,
       this.position.x - this.radius, 
       this.position.y - this.radius, 
       this.radius * 2, this.radius * 2);
@@ -52,20 +53,32 @@ export default class Ball extends Game_Object {
       this.velocity = 0;
       setTimeout(() => this.respawnBall(oldVelo), 500);
     }
+
+    //adjust the sprite src and only and splice off the baseUrl for checking purposses
+    const baseUrl = "http://localhost/pong";
+    const trimmedUrl = this.image.src.split(baseUrl);
+    // since the sprite location are relative the . is necessary
+    this.animateSprite(this.spriteArray.indexOf("." + trimmedUrl[1])); 
   }
 
   adjustValues(newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight) { 
     const scaleX = newCanvasWidth / oldCanvasWidth;
     const scaleY = newCanvasHeight / oldCanvasHeight;
+    const originalRadius = this.radius;
+    const originalX = this.position.x;
+    const originalY = this.position.y;
 
     // Adjust positions
-    this.position.x *= scaleX;
-    this.position.y *= scaleY;
+    this.position.x = originalX * scaleX;
+    this.position.y = originalY * scaleY;
 
     // Adjust the radius while maintaining aspect ratio 
     const min = Math.min(scaleX, scaleY);
     const max = Math.max(scaleX, scaleY);
-    this. radius *= (max + min) / 2;
+    this. radius = originalRadius * (max + min) / 2;
+    
+    // Adjust the velocity
+    this.velocity = window.innerWidth/300 + window.innerHeight/300;
 }
   findResultingAngle_HorizontalWall(initialAngle, wallAngle){
     let relativeAngle = initialAngle - wallAngle;
@@ -88,57 +101,10 @@ export default class Ball extends Game_Object {
     this.position.x = window.innerWidth/2 - this.radius;
     this.position.y = window.innerHeight/2 - this.radius;
     setTimeout(() => {
-      this.direction = randomAngle(200, 340)/180 * Math.PI; 
+      this.direction = randomAngle(20, 70)/180 * Math.PI; 
       this.velocity = oldVelo;
     }, 1000);
-  } 
-
-  bounceRight(otherObject){
-    this.direction = this.findResultingAngle_VerticalWall(this.direction , Math.PI);
-    this.position.x =  otherObject.position.x + otherObject.size.width + this.radius; 
-  }
-  
-  bounceLeft(otherObject){
-    this.direction = this.findResultingAngle_VerticalWall(this.direction, Math.PI);
-    this.position.x  = (otherObject.position.x - this.radius * 2);
-  }
-
-  bounceUp(otherObject){
-    otherObject.velocity = 0;
-    this.direction = this.findResultingAngle_HorizontalWall(this.direction, 0);
-    this.position.y = (otherObject.position.y - this.radius * 2);
-    otherObject.velocity = window.innerHeight/100;
-  }
-  
-  bounceDown(otherObject){
-    otherObject.velocity = 0;
-    this.direction = this.findResultingAngle_HorizontalWall(this.direction, 0);
-    this.position.y = (otherObject.position.y + otherObject.size.height + this.radius*2);
-    otherObject.velocity = window.innerHeight/100;
-  }
-
-  findNextImage(){
-      const BALL_SPRITES = [
-      "./pongSprites/ball0.png",
-      "./pongSprites/ball1.png",
-      "./pongSprites/ball2.png",
-      "./pongSprites/ball3.png",
-      "./pongSprites/ball4.png",
-      "./pongSprites/ball5.png",
-      "./pongSprites/ball6.png"
-    ];
-    
-    //get the index of the currentImage
-    const currentIndex = BALL_SPRITES.indexOf(this.ballImage.src.split("/").slice(-1)[0]);   
-    if (currentIndex === BALL_SPRITES.length - 1){
-      this.ballImgae.src = BALL_SPRITES[0];
-    }
-
-    if (this.ballImage.src.split("/").slice(-1)[0] === BALL_SPRITES[0].split("/").slice(-1)[0]){ 
-    }
-  //console.log(this.ballImage.src.split("/").slice(-1)[0]);
-  //console.log(BALL_SPRITES[0].split("/").slice(-1)[0]);
-  }    
+  }  
   
   getCollisionBox(){
     const topLeft = { x : this.position.x - this.radius, y : this.position.y - this.radius};
@@ -148,7 +114,7 @@ export default class Ball extends Game_Object {
   }
   
   onCollision(otherObject){
-    console.log("True");
+    
     const oldVelo = this.velocity;
     //this.velocity = 0;
     this.position.x -= 2 * (oldVelo * Math.sin(this.direction));
@@ -158,24 +124,33 @@ export default class Ball extends Game_Object {
     if ((this.position.y + this.radius) < otherObject.position.y){
       console.log(this.position.y + this.radius);
       console.log(otherObject.position.y);
-      console.log("top");
       this.direction = this.findResultingAngle_HorizontalWall(initialAngle, 0);
     }
     // if it hits the bottom of the Paddle
     else if (this.position.y - this.radius > otherObject.position.y + otherObject.size.height){
-      console.log("bottom");
       this.direction = this.findResultingAngle_HorizontalWall(initialAngle, 0);
     } 
 
     // if it hits the right side
     else if (this.position.x - this.radius > otherObject.position.x + otherObject.size.width){
-      console.log("right");
       this.direction = this.findResultingAngle_VerticalWall(initialAngle, Math.PI);
     }
     // if it hits the left side
-    else if (this.position.x + this.radius < otherObject.position.x){
-      console.log("left");
+    else if (this.position.x + this.radius < otherObject.position.x){ 
       this.direction = this.findResultingAngle_VerticalWall(initialAngle, Math.PI); 
+    }
+  }
+
+  animateSprite(oldIndex){
+    const fps = 1;
+
+    this.timer ++;
+
+    // update the sprite src every 6 frames
+    if (this.timer >= (60 / fps)){
+      this.timer = 0;
+      const newIndex = (oldIndex + 1) % this.spriteArray.length;
+      this.image.src = this.spriteArray[newIndex];
     }
   }
 }

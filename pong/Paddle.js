@@ -2,13 +2,19 @@ import Game_Object from "../Game_Object.js";
 import { InputMapping } from "../KeyboardMapping.js";
 
 export default class Paddle extends Game_Object {
-  constructor(width, height,velocity,x,y, imageSrc, UP, DOWN, tag){
+  constructor(width, height,velocity,x,y, spriteArray, collisionSpriteArray, UP, DOWN, tag){
     super(x,y, tag);
     this.image = new Image();
-    this.image.src = imageSrc;
+    // default to the 1st sprite in the list
+    this.spriteArray =  spriteArray;
+    this.image.src = spriteArray[0];
     this.size = {width, height};
     this.velocity = velocity;
     this.keys = {UP, DOWN};
+    this.timer = 0;
+    this.collisionSpriteArray = collisionSpriteArray;
+    this.collisionSprite = collisionSpriteArray[collisionSpriteArray.length - 1];
+    this.isColliding =  false;
   }
 
   render(ctx){
@@ -16,14 +22,22 @@ export default class Paddle extends Game_Object {
   }
 
   update(){
+    // when hitting the boarders
     if (InputMapping[this.keys.UP] == true && this.position.y > 0){
       this.position.y -= this.velocity;
     }
     else if (InputMapping[this.keys.DOWN] == true && this.position.y < (window.innerHeight - this.size.height) ){
       this.position.y += this.velocity;
     }
+
+    //adjust the sprite src and only and splice off the baseUrl for checking purposses
+    const baseUrl = "http://localhost/pong";
+    const trimmedUrl = this.image.src.split(baseUrl);
+    // since the sprite location are relative the . is necessary
+    this.animateSprite(this.spriteArray.indexOf("." + trimmedUrl[1])); 
   }
 
+  // function to help with the aspect ratio
   adjustValues(newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight) {
     const scaleX = newCanvasWidth / oldCanvasWidth;
     const scaleY = newCanvasHeight / oldCanvasHeight;
@@ -36,6 +50,9 @@ export default class Paddle extends Game_Object {
     // Adjust the size while maintaining aspect ratio 
     this.size.width *= scaleX;
     this.size.height = (newCanvasHeight * oldPaddleHeight) / oldCanvasHeight;
+
+    // Adjust the velocity
+    this.velocity = window.innerHeight/100;
   }
 
   getCollisionBox(){
@@ -43,7 +60,46 @@ export default class Paddle extends Game_Object {
     const bottomRight = { x : this.position.x + this.size.width, y : this.position.y + this.size.height};
     return {topLeft, bottomRight};
   }
+  
+  onCollision(otherObject){
+    this.isColliding = true;    
+  }
 
+  animateCollision(oldIndex){
+    const fps = 6;
+
+    if (this.timer >= (60 / fps)){
+      this.timer = 0;
+      const newIndex = (oldIndex + 1) % this.spriteArray.length;
+      this.image.src = this.collisionSpriteArray[newIndex];
+    }
+
+    setTimeout(() => {
+      this.isColliding = false;
+    }, 1000);
+  }
+
+  animateSprite(oldIndex){
+    const fps = 3;
+
+    this.timer ++;
+    
+    if (this.isColliding){
+      //adjust the sprite src and only and splice off the baseUrl for checking purposses
+      const baseUrl = "http://localhost/pong";
+      const trimmedUrl = this.collisionSprite.split(baseUrl); 
+
+      // run different animateSprite
+      this.animateCollision(this.collisionSpriteArray.indexOf("." + trimmedUrl[1]));
+
+    }
+    // update the sprite src
+    else if (this.timer >= (60 / fps)){
+      this.timer = 0;
+      const newIndex = (oldIndex + 1) % this.spriteArray.length;
+      this.image.src = this.spriteArray[newIndex];
+    }
+  }
 }
 
 
