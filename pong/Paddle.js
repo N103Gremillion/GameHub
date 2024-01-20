@@ -13,7 +13,7 @@ export default class Paddle extends Game_Object {
     this.keys = {UP, DOWN};
     this.timer = 0;
     this.collisionSpriteArray = collisionSpriteArray;
-    this.collisionSprite = collisionSpriteArray[collisionSpriteArray.length - 1];
+    this.collisionSprite = collisionSpriteArray[0];
     this.isColliding =  false;
   }
 
@@ -66,17 +66,20 @@ export default class Paddle extends Game_Object {
   }
 
   animateCollision(oldIndex){
-    const fps = 6;
+    const fps = 6; 
+    // this helps to run every frame the SpriteList 1 time
+    const frameDuration = 500 / (fps * this.collisionSpriteArray.length);
 
-    if (this.timer >= (60 / fps)){
+    if (this.timer >= frameDuration){
       this.timer = 0;
-      const newIndex = (oldIndex + 1) % this.spriteArray.length;
-      this.image.src = this.collisionSpriteArray[newIndex];
+      const newIndex = (oldIndex + 1) % this.collisionSpriteArray.length;
+      this.collisionSprite = this.collisionSpriteArray[newIndex]; 
+      this.image.src = this.collisionSprite;
     }
 
     setTimeout(() => {
       this.isColliding = false;
-    }, 1000);
+    }, 250);
   }
 
   animateSprite(oldIndex){
@@ -85,12 +88,14 @@ export default class Paddle extends Game_Object {
     this.timer ++;
     
     if (this.isColliding){
-      //adjust the sprite src and only and splice off the baseUrl for checking purposses
-      const baseUrl = "http://localhost/pong";
-      const trimmedUrl = this.collisionSprite.split(baseUrl); 
-
+      //adjust the collisionSprite src and only and splice off the baseUrl for checking purposses
+      //const baseUrl = "http://localhost/pong";
+      console.log(this.collisionSprite);
+      //const trimmedUrl = this.collisionSprite.split(baseUrl);
+      //console.log(trimmedUrl);
+      console.log(this.collisionSpriteArray.indexOf(this.collisionSprite));
       // run different animateSprite
-      this.animateCollision(this.collisionSpriteArray.indexOf("." + trimmedUrl[1]));
+      this.animateCollision(this.collisionSpriteArray.indexOf(this.collisionSprite));
 
     }
     // update the sprite src

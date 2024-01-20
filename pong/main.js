@@ -13,11 +13,11 @@ const collisionTags = ["Ball", "Paddle"];
 
 // sprite lists for each of the Games
 // super goku
-const superGokuSprites = ["./pongSprites/superG1.png", "./pongSprites/superG2.png", "./pongSprites/superG3.png", "./pongSprites/superG4.png", "./pongSprites/superG5.png", "./pongSprites/superG6.png"];
-const gokuSprites = ["./pongSprites/goku1.png", "./pongSprites/goku2.png", "./pongSprites/goku3.png", "./pongSprites/goku4.png", "./pongSprites/goku5.png", "./pongSprites/goku6.png"];
+const superGokuSprites = ["./pongSprites/superGidle1.png", "./pongSprites/superGidle2.png", "./pongSprites/superGidle3.png", "./pongSprites/superGidle4.png", "./pongSprites/superGidle5.png", "./pongSprites/superGidle6.png", "./pongSprites/superGidle7.png", "./pongSprites/superGidle8.png"];
+const gokuSprites = ["./pongSprites/goku1.png", "./pongSprites/goku2.png", "./pongSprites/goku3.png", "./pongSprites/goku4.png", "./pongSprites/goku5.png", "./pongSprites/goku6.png", "./pongSprites/goku7.png", "./pongSprites/goku8.png"];
 const dragonBallSprites = ["./pongSprites/ball0.png", "./pongSprites/ball1.png", "./pongSprites/ball3.png", "./pongSprites/ball4.png", "./pongSprites/ball5.png", "./pongSprites/ball6.png"];
-const superGokuCollisonSprites = ["./pongSprites/superGHit1.png", "./pongSprites/superGHit2.png", "./pongSprites/superGHit3.png", "./pongSprites/superGHit4.png", "./pongSprites/superGHit5.png", "./pongSprites/superGHit6.png"];
-const gokuCollisionSprites = ["./pongSprites/gokuHit1.png", "./pongSprites/gokuHit2.png", "./pongSprites/gokuHit3.png", "./pongSprites/gokuHit4.png", "./pongSprites/gokuHit5.png", "./pongSprites/gokuHit6.png"];
+const superGokuCollisonSprites = ["./pongSprites/superGHit4.png", "./pongSprites/superGHit5.png", "./pongSprites/superGHit6.png", "./pongSprites/superGHit6.png", "./pongSprites/superGHit6.png"];
+const gokuCollisionSprites = ["./pongSprites/gokuHit4.png", "./pongSprites/gokuHit5.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png"];
 // setup gameObjects
 Manager.setup((gameObjects) => {
   let paddleWidth = WINDOW_WIDTH * PADDLE_WIDTH_PERCENTAGE;
@@ -66,7 +66,6 @@ function randomAngle(min, max){
   const bottomLeft = bottomRight + 270;
   // get random number 1-4 to to chose from 
   const random = Math.floor(Math.random() * (5 - 1));
-  console.log(random);
   if (random === 1){
     return bottomRight;
   }
