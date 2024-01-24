@@ -8,6 +8,7 @@ export default class Game_Manager {
 
   constructor() {
     this.gameObjects = []; 
+    this.Scores = [];
   }
 
   //input backgroundImage
@@ -51,7 +52,7 @@ export default class Game_Manager {
   setup(setupTrigger) {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight; 
-    setupTrigger(this.gameObjects);
+    setupTrigger(this.gameObjects, this.Scores);
   }
 
   startGame(tagsToCheck) {
@@ -66,6 +67,11 @@ export default class Game_Manager {
 
     //draw game
     this.gameObjects.forEach((element) => {
+      element.render(this.ctx);
+    });
+
+    //draw scores
+    this.Scores.forEach((element) => {
       element.render(this.ctx);
     });
     

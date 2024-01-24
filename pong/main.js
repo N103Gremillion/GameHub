@@ -1,6 +1,7 @@
 import { Manager } from '../Game_Manager.js';
 import Paddle from './Paddle.js';
 import Ball from './Ball.js';
+import Score from './Score.js';
 import { InputMapping } from '../KeyboardMapping.js';
 
 
@@ -19,7 +20,7 @@ const dragonBallSprites = ["./pongSprites/ball0.png", "./pongSprites/ball1.png",
 const superGokuCollisonSprites = ["./pongSprites/superGHit4.png", "./pongSprites/superGHit5.png", "./pongSprites/superGHit6.png", "./pongSprites/superGHit6.png", "./pongSprites/superGHit6.png"];
 const gokuCollisionSprites = ["./pongSprites/gokuHit4.png", "./pongSprites/gokuHit5.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png"];
 // setup gameObjects
-Manager.setup((gameObjects) => {
+Manager.setup((gameObjects, Scores) => {
   let paddleWidth = WINDOW_WIDTH * PADDLE_WIDTH_PERCENTAGE;
   let paddleHeight = WINDOW_HEIGHT * PADDLE_HEIGHT_PERCENTAGE;
   let radius = (WINDOW_WIDTH/2 + WINDOW_HEIGHT/2) * BALL_SIZE_PERCENTAGE;
@@ -31,11 +32,26 @@ Manager.setup((gameObjects) => {
   let ballX = WINDOW_WIDTH/2 - radius;
   let ballY =  WINDOW_HEIGHT/2 - radius;
   let ballDirection = randomAngle(20, 70);
+  let player1ScoreX = window.innerWidth * 0.05;
+  let player1ScoreY = window.innerHeight * 0.10;
+  let player1ScoreColor = 'blue';
+  let player1fontSize = 30;
+  let player1font = 'cursive';
+  let player1Name = 'player1';
+  let player2ScoreX = window.innerWidth * 0.95;
+  let player2ScoreY = window.innerHeight * 0.10;
+  let player2ScoreColor = 'red';
+  let player2fontSize = 30;
+  let player2font = 'cursive';
+  let player2Name = 'player2';
   
+
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, superGokuSprites, superGokuCollisonSprites, 'w', 's', "Paddle"));
   gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, gokuSprites, gokuCollisionSprites, 'arrowup', 'arrowdown', "Paddle"));
   gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection, "Ball", dragonBallSprites));
-  // testing the gameObjects ids
+  //scores for the players
+  Scores.push(new Score(player1ScoreX, player1ScoreY, player1ScoreColor, player1fontSize, player1font, player1Name));
+  Scores.push(new Score(player2ScoreX, player2ScoreY, player2ScoreColor, player2fontSize, player2font, player2Name));
 });
 
 //backgroundImage
