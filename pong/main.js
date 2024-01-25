@@ -38,7 +38,11 @@ Manager.setup((gameObjects, Scores) => {
   let player1fontSize = 30;
   let player1font = 'cursive';
   let player1Name = 'player1';
+ HEAD
   let player2ScoreX = window.innerWidth * 0.95;
+
+  let player2ScoreX = window.innerWidth * 0.85;
+d04c105 (git stuff)
   let player2ScoreY = window.innerHeight * 0.10;
   let player2ScoreColor = 'red';
   let player2fontSize = 30;

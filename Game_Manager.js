@@ -39,11 +39,15 @@ export default class Game_Manager {
       const oldCanvasWidth = Game_Manager.canvas.width;
       const oldCanvasHeight = Game_Manager.canvas.height; 
       // Used to change the location of each element relative to the size of the window when being resized and there location
-      Game_Manager.setup((gameObjects) => {
-      Game_Manager.gameObjects.forEach((element) => {
-        element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
-        element.update();
-        element.render(Game_Manager.ctx);
+      Game_Manager.setup(() => {
+        Game_Manager.gameObjects.forEach((element) => {
+          element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
+          element.update();
+          element.render(Game_Manager.ctx);
+        });
+        Game_Manager.Scores.forEach((element) => {
+          element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
+          element.render(Game_Manager.ctx);
         });
       });
     }
