@@ -2,7 +2,7 @@ import Game_Object from "../Game_Object.js";
 import { InputMapping } from "../KeyboardMapping.js";
 
 export default class Paddle extends Game_Object {
-  constructor(width, height,velocity,x,y, spriteArray, collisionSpriteArray, UP, DOWN, tag){
+  constructor(width, height,velocity,x,y, spriteArray, collisionSpriteArray, UP, DOWN, tag, soundList){
     super(x,y, tag);
     this.image = new Image();
     // default to the 1st sprite in the list
@@ -15,6 +15,7 @@ export default class Paddle extends Game_Object {
     this.collisionSpriteArray = collisionSpriteArray;
     this.collisionSprite = collisionSpriteArray[0];
     this.isColliding =  false;
+    this.soundList = soundList;
   }
 
   render(ctx){
@@ -62,6 +63,8 @@ export default class Paddle extends Game_Object {
   }
   
   onCollision(otherObject){
+    // pass in the basic hit sound when the objects collide
+    this.playSound(this.soundList[0]);
     this.isColliding = true;    
   }
 
@@ -88,13 +91,7 @@ export default class Paddle extends Game_Object {
     this.timer ++;
     
     if (this.isColliding){
-      //adjust the collisionSprite src and only and splice off the baseUrl for checking purposses
-      //const baseUrl = "http://localhost/pong";
-      console.log(this.collisionSprite);
-      //const trimmedUrl = this.collisionSprite.split(baseUrl);
-      //console.log(trimmedUrl);
-      console.log(this.collisionSpriteArray.indexOf(this.collisionSprite));
-      // run different animateSprite
+      // run animateSprite
       this.animateCollision(this.collisionSpriteArray.indexOf(this.collisionSprite));
 
     }
@@ -104,6 +101,17 @@ export default class Paddle extends Game_Object {
       const newIndex = (oldIndex + 1) % this.spriteArray.length;
       this.image.src = this.spriteArray[newIndex];
     }
+  }
+
+  playSound(url){
+    console.log(url);
+    console.log(this.soundList[0]);
+    const audio = new Audio(url);
+    if (url === this.soundList[0]){
+      // decrease the sound a little cuz it is kinda a loud sound 
+      audio.volume *= 0.3;
+    }
+    audio.play();
   }
 }
 

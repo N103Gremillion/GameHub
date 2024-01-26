@@ -29,20 +29,18 @@ Manager.setup((gameObjects, Scores) => {
   let paddle1X = WINDOW_WIDTH/4 - (paddleWidth*3);
   let paddle2X = WINDOW_WIDTH/4 + WINDOW_WIDTH/2 + (paddleWidth * 2);
   let paddleY = WINDOW_HEIGHT/2 - paddleHeight;
+  let paddleSounds = ["./pongSounds/punch.mp3", "./pongSounds/powerHit.mp3"];
   let ballX = WINDOW_WIDTH/2 - radius;
   let ballY =  WINDOW_HEIGHT/2 - radius;
   let ballDirection = randomAngle(20, 70);
+  let ballSound = "./pongSounds/ballBouncingSound.mp3";
   let player1ScoreX = window.innerWidth * 0.05;
   let player1ScoreY = window.innerHeight * 0.10;
   let player1ScoreColor = 'blue';
   let player1fontSize = 30;
   let player1font = 'cursive';
-  let player1Name = 'player1';
- HEAD
-  let player2ScoreX = window.innerWidth * 0.95;
-
+  let player1Name = 'player1'; 
   let player2ScoreX = window.innerWidth * 0.85;
-d04c105 (git stuff)
   let player2ScoreY = window.innerHeight * 0.10;
   let player2ScoreColor = 'red';
   let player2fontSize = 30;
@@ -50,9 +48,9 @@ d04c105 (git stuff)
   let player2Name = 'player2';
   
 
-  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, superGokuSprites, superGokuCollisonSprites, 'w', 's', "Paddle"));
-  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, gokuSprites, gokuCollisionSprites, 'arrowup', 'arrowdown', "Paddle"));
-  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection, "Ball", dragonBallSprites));
+  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, superGokuSprites, superGokuCollisonSprites, 'w', 's', "Paddle", paddleSounds));
+  gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, gokuSprites, gokuCollisionSprites, 'arrowup', 'arrowdown', "Paddle", paddleSounds));
+  gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection, "Ball", dragonBallSprites, ballSound));
   //scores for the players
   Scores.push(new Score(player1ScoreX, player1ScoreY, player1ScoreColor, player1fontSize, player1font, player1Name));
   Scores.push(new Score(player2ScoreX, player2ScoreY, player2ScoreColor, player2fontSize, player2font, player2Name));
@@ -63,6 +61,10 @@ Manager.loadBackgroundImage("./pongSprites/background.gif", collisionTags);
 
 // start reading input from keyboardMapping constants
 Manager.inputHandling(InputMapping, Manager);
+
+// setup background music
+Manager.setBackgroundMusicUrl("./pongSounds/normalBackgroundMusic.mp3");
+Manager.startBackgroundMusic();
 
 //loop
 Manager.startGame(collisionTags);

@@ -6,8 +6,9 @@ export default class Score{
     this.x = x;
     this.y = y;
     this.color = color;
-HEAD
-    this.font = '${fontSize}px ${fontFamily}';
+    this.fontSize = fontSize;
+    this.fontFamily = fontFamily;
+    this.font = `${fontSize}px ${fontFamily}`;
     this.playerName = playerName;
   }
   getScore(){
@@ -28,7 +29,6 @@ HEAD
     this.fontFamily = fontFamily;
     this.font =  `${fontSize}px ${fontFamily}`;
     this.playerName = playerName;
-d04c105 (git stuff)
   }
   getScore(){
     return this.score;

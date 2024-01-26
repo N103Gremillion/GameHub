@@ -2,7 +2,7 @@ import Game_Object from "../Game_Object.js";
 import { randomAngle } from "./main.js";
 
 export default class Ball extends Game_Object {
-  constructor(radius, velocity, x, y, direction, tag, spriteArray){ 
+  constructor(radius, velocity, x, y, direction, tag, spriteArray, bounceSound){ 
     super(x,y,tag);
     this.radius = radius;
     this.velocity = velocity;
@@ -11,6 +11,7 @@ export default class Ball extends Game_Object {
     this.spriteArray = spriteArray;
     this.image.src = spriteArray[0]; 
     this.timer = 0;
+    this.bounceSound = bounceSound;
     }
   
   render(ctx){
@@ -25,19 +26,21 @@ export default class Ball extends Game_Object {
     const oldBallDirection = this.direction;
     //checking for collisions
     if (this.position.y < window.innerHeight && this.position.y > 0 && this.position.x < window.innerWidth && this.position.x > 0){
-      this.moveBall(); 
+      this.moveBall();
     }
     // if it hits the bottom
     else if (this.position.y > window.innerHeight){
       this.position.y = window.innerHeight - this.radius;
       this.direction = this.findResultingAngle_HorizontalWall(this.direction, Math.PI);
       this.moveBall(); 
+      this.playAudio(this.bounceSound);
     }
     // if it hits the top
     else if (this.position.y < 0){
       this.position.y = 0 + this.radius;
       this.direction = this.findResultingAngle_HorizontalWall(this.direction, Math.PI);
       this.moveBall();
+      this.playAudio(this.bounceSound);
     }
     // if it hits the left wall
     else if (this.position.x < 0){ 
@@ -64,22 +67,21 @@ export default class Ball extends Game_Object {
   adjustValues(newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight) { 
     const scaleX = newCanvasWidth / oldCanvasWidth;
     const scaleY = newCanvasHeight / oldCanvasHeight;
-    const originalRadius = this.radius;
-    const originalX = this.position.x;
-    const originalY = this.position.y;
+    
+    //get old and new aspect ratio
+    const oldAspectRatio = oldCanvasWidth/oldCanvasHeight;
+    const newAspectRatio = newCanvasWidth/newCanvasHeight;
 
     // Adjust positions
-    this.position.x = originalX * scaleX;
-    this.position.y = originalY * scaleY;
+    this.position.x *= scaleX;
+    this.position.y *= scaleY;
 
     // Adjust the radius while maintaining aspect ratio 
-    const min = Math.min(scaleX, scaleY);
-    const max = Math.max(scaleX, scaleY);
-    this. radius = originalRadius * (max + min) / 2;
-    
+    this. radius *= newAspectRatio/oldAspectRatio;    
+
     // Adjust the velocity
     this.velocity = window.innerWidth/300 + window.innerHeight/300;
-}
+  }
   findResultingAngle_HorizontalWall(initialAngle, wallAngle){
     let relativeAngle = initialAngle - wallAngle;
     let reflection = wallAngle +  (Math.PI - relativeAngle + 2 * Math.PI) % (2 * Math.PI);
@@ -152,5 +154,10 @@ export default class Ball extends Game_Object {
       const newIndex = (oldIndex + 1) % this.spriteArray.length;
       this.image.src = this.spriteArray[newIndex];
     }
+  }
+
+  playAudio(url){
+    const audio = new Audio(url);
+    audio.play();
   }
 }

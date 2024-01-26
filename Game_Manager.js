@@ -9,6 +9,7 @@ export default class Game_Manager {
   constructor() {
     this.gameObjects = []; 
     this.Scores = [];
+    this.backgroundMusic = new Audio();
   }
 
   //input backgroundImage
@@ -95,6 +96,36 @@ export default class Game_Manager {
       }
     }
   }
+  
+
+  setBackgroundMusicUrl(url){
+    this.backgroundMusic.src = url;
+  }
+
+  startBackgroundMusic(){
+    // loop for the entirity of the game
+    this.backgroundMusic.loop = true;
+
+    // Mute initially
+    this.backgroundMusic.muted = true;
+
+    // Start playback
+    this.backgroundMusic.play().then(() => {
+      // delay the song by a little bit 
+      setTimeout(() => {
+         this.backgroundMusic.muted = false;
+      }, 5000);
+     
+    }).catch((error) => {
+      // Handle any errors
+      console.error('Error starting background music:', error);
+    });
+  }
+
+  stopBackgroundMusic() {
+    this.backgroundMusic.pause();
+  }
+  
   
 }
 
