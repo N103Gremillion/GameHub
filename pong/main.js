@@ -1,8 +1,8 @@
-import { Manager } from '../Game_Manager.js';
 import Paddle from './Paddle.js';
 import Ball from './Ball.js';
 import Score from './Score.js';
 import { InputMapping } from '../KeyboardMapping.js';
+import { Manager } from '../Game_Manager.js';
 
 
 const PADDLE_WIDTH_PERCENTAGE = .05;

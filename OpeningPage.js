@@ -1,7 +1,6 @@
-import Button from "./openingScreen/Button";
 
 // basic opening page
-class OpeningPage{
+/* class OpeningPage{
 
   canvas = document.getElementById("openingCanvas");
   ctx = this.canvas.getContext('2d');
@@ -14,7 +13,6 @@ class OpeningPage{
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.refill(ctx);    
-    specificSetup();
   }
 
   refill(ctx){
@@ -49,3 +47,5 @@ Opening.setup(Opening.ctx,(() => {
 }));
 
 Opening.checkUserInput();
+Opening.buttons[0].render(Opening.ctx);
+console.log("YO"); */
