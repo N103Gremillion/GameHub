@@ -1,5 +1,6 @@
 import Game_Object from "../Game_Object.js";
 import { randomAngle } from "./main.js";
+import { Manager } from "../Game_Manager.js";
 
 export default class Ball extends Game_Object {
   constructor(radius, velocity, x, y, direction, tag, spriteArray, bounceSound){ 
@@ -47,6 +48,7 @@ export default class Ball extends Game_Object {
       this.position.x = 0 + this.radius;
       const oldVelo = this.velocity;
       this.velocity = 0;
+      Manager.Scores[1].increaseScore(1);
       setTimeout(() => this.respawnBall(oldVelo), 500);
     }
     // if it hits the right wall
@@ -54,6 +56,7 @@ export default class Ball extends Game_Object {
       this.position.x = window.innerWidth - (this.radius * 2);
       const oldVelo = this.velocity;
       this.velocity = 0;
+      Manager.Scores[0].increaseScore(1);
       setTimeout(() => this.respawnBall(oldVelo), 500);
     }
 
