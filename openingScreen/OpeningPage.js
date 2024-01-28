@@ -34,12 +34,20 @@ class OpeningPage{
 
     }));
   }
+
+  loop(ctx, buttons){
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.refill(ctx);
+    buttons.forEach((button) => {
+      button.render(ctx);
+    });
+  }
 }
 
 // setup
 const Opening = new OpeningPage();
 
-const PongButtonSprites = ["../pong/pongSprites/goku.png", "./OpeningPageSprites/pongButtonHovering.png"];
+const PongButtonSprites = ["../OpeningPageSprites/pongButton.png", "../OpeningPageSprites/pongButtonHovering.png"];
 
 Opening.setup(Opening.ctx,(buttons) => {
 
@@ -58,6 +66,8 @@ console.log(Opening.buttons[0]);
 Opening.buttons[0].image.onload = function(){  
     Opening.buttons[0].render(Opening.ctx);
 }
+
+Opening.loop(Opening.ctx, Opening.buttons);
 
 
 
