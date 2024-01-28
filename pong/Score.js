@@ -1,4 +1,3 @@
-
 export default class Score{
 
   constructor(x, y, color, fontSize, fontFamily, playerName){

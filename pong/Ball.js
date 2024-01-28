@@ -1,5 +1,6 @@
 import Game_Object from "../Game_Object.js";
 import { randomAngle } from "./main.js";
+import { Manager } from "../Game_Manager.js";
 
 export default class Ball extends Game_Object {
   constructor(radius, velocity, x, y, direction, tag, spriteArray, bounceSound){ 
