@@ -8,6 +8,7 @@ export default class Button{
     this.SpriteList = SpriteList;
     this.image = new Image();
     this.image.src = SpriteList[0];
+    console.log(this.image.src);
   }
 
   //getters and setters for practice
@@ -63,7 +64,7 @@ export default class Button{
     }
   }
 
-  render(ctx){
+  render(ctx){ 
     ctx.drawImage(this.image, this._x, this._y, this._width, this._height);
   }
 
