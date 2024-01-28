@@ -1,8 +1,8 @@
-import { Manager } from '../Game_Manager.js';
 import Paddle from './Paddle.js';
 import Ball from './Ball.js';
 import Score from './Score.js';
 import { InputMapping } from '../KeyboardMapping.js';
+import { Manager } from '../Game_Manager.js';
 
 
 const PADDLE_WIDTH_PERCENTAGE = .05;
@@ -12,13 +12,13 @@ const WINDOW_WIDTH = window.innerWidth;
 const WINDOW_HEIGHT = window.innerHeight;
 const collisionTags = ["Ball", "Paddle"];
 
-// sprite lists for each of the Games
-// super goku
+// sprite lists for each of the Paddles and Ball
 const superGokuSprites = ["./pongSprites/superGidle1.png", "./pongSprites/superGidle2.png", "./pongSprites/superGidle3.png", "./pongSprites/superGidle4.png", "./pongSprites/superGidle5.png", "./pongSprites/superGidle6.png", "./pongSprites/superGidle7.png", "./pongSprites/superGidle8.png"];
 const gokuSprites = ["./pongSprites/goku1.png", "./pongSprites/goku2.png", "./pongSprites/goku3.png", "./pongSprites/goku4.png", "./pongSprites/goku5.png", "./pongSprites/goku6.png", "./pongSprites/goku7.png", "./pongSprites/goku8.png"];
 const dragonBallSprites = ["./pongSprites/ball0.png", "./pongSprites/ball1.png", "./pongSprites/ball3.png", "./pongSprites/ball4.png", "./pongSprites/ball5.png", "./pongSprites/ball6.png"];
 const superGokuCollisonSprites = ["./pongSprites/superGHit4.png", "./pongSprites/superGHit5.png", "./pongSprites/superGHit6.png", "./pongSprites/superGHit6.png", "./pongSprites/superGHit6.png"];
 const gokuCollisionSprites = ["./pongSprites/gokuHit4.png", "./pongSprites/gokuHit5.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png"];
+
 // setup gameObjects
 Manager.setup((gameObjects, Scores) => {
   let paddleWidth = WINDOW_WIDTH * PADDLE_WIDTH_PERCENTAGE;
