@@ -1,13 +1,24 @@
+import HtmlButton from "../HtmlButton.js";
+
 export default class Button{
   
-  constructor(x, y, width, height, SpriteList){
+  constructor(x, y, width, height, SpriteList, tag) {
     this._x = x;
     this._y = y;
     this._width = width;
     this._height = height;
     this.SpriteList = SpriteList;
-    this.image = new Image();
-    this.image.src = SpriteList[0]; 
+    // Create button element
+    this.newButton = new HtmlButton(tag);
+    this.newButton.style.position = 'absolute';
+    this.newButton.style.width = `${this._width}px`;
+    this.newButton.style.height = `${this._height}px`;
+    this.newButton.style.left = `${this._x}px`;
+    this.newButton.style.top = `${this._y}px`;
+    this.newButton.style.backgroundImage = `url('${SpriteList[0]}')`;
+    this.newButton.style.backgroundSize = '100% 100%';
+    // Append button to body
+    document.body.appendChild(this.newButton);
   }
 
   //getters and setters for practice
@@ -66,7 +77,7 @@ export default class Button{
 
   // methods
   render(ctx){ 
-    ctx.drawImage(this.image, this._x, this._y, this._width, this._height);
+    //ctx.drawImage(this.image, this._x, this._y, this._width, this._height);
   }
 
   adjust( newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight){

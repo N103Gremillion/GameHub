@@ -1,6 +1,6 @@
 import Button from "./Button.js";
 
-// basic opening page
+//basic opening page
 class OpeningPage{
 
   canvas = document.getElementById("openingCanvas");
@@ -37,14 +37,14 @@ class OpeningPage{
 
       //check for when mouse hovers over buttons
       buttons.forEach(button => { 
-        button.image.addEventListener('mouseenter', () => {
-          button.image.style.border = "2px solid red";
+        console.log(button);
+        button.newButton.addEventListener('mouseenter', () => { 
           console.log("IN Button");
         });
-        button.image.addEventListener("mouseleave", () => {
+        /*button.image.addEventListener("mouseleave", () => {
           button.image.style.border = "none";
           console.log("Leaving Button");
-        });
+        });*/
       });
 
     }));
@@ -83,23 +83,13 @@ Opening.setup(Opening.ctx,(buttons) => {
   let Game3ButtonHeight = window.innerHeight * .20;
 
 
-  let pongButton = new Button(PongButtonX, PongButtonY, ButtonWidth, ButtonHeight, PongButtonSprites);
-  let game2Button = new Button(Game2ButtonX, Game2ButtonY, Game2ButtonWidth, Game2ButtonHeight, CommingSoonSprites1); 
-  let game3Button = new Button(Game3ButtonX, Game3ButtonY, Game3ButtonWidth, Game3ButtonHeight, CommingSoonSprites2);
+  let pongButton = new Button(PongButtonX, PongButtonY, ButtonWidth, ButtonHeight, PongButtonSprites, 'button');
+  let game2Button = new Button(Game2ButtonX, Game2ButtonY, Game2ButtonWidth, Game2ButtonHeight, CommingSoonSprites1, 'button'); 
+  let game3Button = new Button(Game3ButtonX, Game3ButtonY, Game3ButtonWidth, Game3ButtonHeight, CommingSoonSprites2, 'button');
   buttons.push(pongButton); 
   buttons.push(game2Button);
   buttons.push(game3Button);
-
-
 });
-
-// load the images and then start rendering
-Opening.buttons.forEach(button => {
-  button.image.onload = () => {
-      button.render(Opening.ctx);
-  };
-});
-Opening.buttons[0].image.addEventListener('mouseenter', () => { console.log(working);});
 
 //check for input on buttons and resizing
 Opening.checkUserInput(Opening.buttons);
