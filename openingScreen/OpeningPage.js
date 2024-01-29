@@ -1,4 +1,4 @@
-import Button from "./Button.js";
+import Button from "../Button.js";
 
 //basic opening page
 class OpeningPage{
@@ -22,7 +22,7 @@ class OpeningPage{
   }
 
   checkUserInput(buttons){
-    window.addEventListener("resize", (() => {
+    window.addEventListener("resize", () => {
       //get old page demintions
       const oldCanvasWidth = this.canvas.width;
       const oldCanvasHeight = this.canvas.height;
@@ -32,22 +32,34 @@ class OpeningPage{
       this.buttons.forEach(button => {
         button.adjust(this.canvas.width, this.canvas.height, oldCanvasWidth, oldCanvasHeight); 
       });
+    });
 
       //check for when mouse hovers over buttons
       buttons.forEach(button => { 
-        console.log(button);
         button.newButton.addEventListener('mouseenter', () => { 
           button.setButtonSprite(button.SpriteList[1]); 
         });
         button.newButton.addEventListener("mouseleave", () => {
-          button.setButtonSprite(button.SpriteList[0]); 
+           button.setButtonSprite(button.SpriteList[0]); 
+        });
+        button.newButton.addEventListener('click', () => {
+          //check the tags and then sent to corresponding file path
+          if (button.tag === "PongButton"){
+            window.location.href = "../pong/pong_html.html";
+          }
+
+          else if(button.tag === "SpaceInvadersButton"){
+            console.log("inside SpaceInvaders");
+          }
+
+          else if(button.tag === "SnakeButton"){
+            console.log("inside Snake");
+          }
         });
       });
-
-    }));
   }
 
-  loop(ctx, buttons){
+  loop(ctx){
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.refill(ctx); 
   }
@@ -77,9 +89,9 @@ Opening.setup(Opening.ctx,(buttons) => {
   let Game3ButtonHeight = window.innerHeight * .20;
 
 
-  let pongButton = new Button(PongButtonX, PongButtonY, ButtonWidth, ButtonHeight, PongButtonSprites);
-  let game2Button = new Button(Game2ButtonX, Game2ButtonY, Game2ButtonWidth, Game2ButtonHeight, CommingSoonSprites1); 
-  let game3Button = new Button(Game3ButtonX, Game3ButtonY, Game3ButtonWidth, Game3ButtonHeight, CommingSoonSprites2);
+  let pongButton = new Button(PongButtonX, PongButtonY, ButtonWidth, ButtonHeight, PongButtonSprites, "PongButton");
+  let game2Button = new Button(Game2ButtonX, Game2ButtonY, Game2ButtonWidth, Game2ButtonHeight, CommingSoonSprites1, "SpaceInvadersButton"); 
+  let game3Button = new Button(Game3ButtonX, Game3ButtonY, Game3ButtonWidth, Game3ButtonHeight, CommingSoonSprites2, "SnakeButton");
   buttons.push(pongButton); 
   buttons.push(game2Button);
   buttons.push(game3Button);
@@ -88,7 +100,7 @@ Opening.setup(Opening.ctx,(buttons) => {
 //check for input on buttons and resizing
 Opening.checkUserInput(Opening.buttons);
 
-Opening.loop(Opening.ctx, Opening.buttons);
+Opening.loop(Opening.ctx);
 
 
 

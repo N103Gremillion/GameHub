@@ -8,6 +8,7 @@ export default class Button{
     this._width = width;
     this._height = height;
     this.SpriteList = SpriteList;
+    this.tag = tag;
 
     // Create button element
     this.newButton = new HtmlButton('button');
