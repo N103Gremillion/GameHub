@@ -7,8 +7,7 @@ export default class Button{
     this._height = height;
     this.SpriteList = SpriteList;
     this.image = new Image();
-    this.image.src = SpriteList[0];
-    console.log(this.image.src);
+    this.image.src = SpriteList[0]; 
   }
 
   //getters and setters for practice
@@ -63,9 +62,22 @@ export default class Button{
       console.error("height value is either to large or to small");
     }
   }
+  
 
+  // methods
   render(ctx){ 
     ctx.drawImage(this.image, this._x, this._y, this._width, this._height);
+  }
+
+  adjust( newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight){
+    //aspect rotios (width/height)
+    const xScale = newCanvasWidth/oldCanvasWidth;
+    const yScale = newCanvasHeight/oldCanvasHeight;
+
+    this._height *= yScale;
+    this._width *= xScale;
+    this._x *= xScale;
+    this._y *= yScale;
   }
 
 }

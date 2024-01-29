@@ -13,8 +13,7 @@ class OpeningPage{
   setup(ctx, specificSetup){
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-    ctx.fillStyle = "grey";
-    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillStyle = "grey"; 
     specificSetup(this.buttons);
   }
 
@@ -23,7 +22,7 @@ class OpeningPage{
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  checkUserInput(){
+  checkUserInput(buttons){
     window.addEventListener("resize", (() => {
       //get old page demintions
       const oldCanvasWidth = this.canvas.width;
@@ -31,6 +30,22 @@ class OpeningPage{
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
       this.refill(this.ctx);
+      this.buttons.forEach(button => {
+        button.adjust(this.canvas.width, this.canvas.height, oldCanvasWidth, oldCanvasHeight);
+        button.render(this.ctx);
+      });
+
+      //check for when mouse hovers over buttons
+      buttons.forEach(button => { 
+        button.image.addEventListener('mouseenter', () => {
+          button.image.style.border = "2px solid red";
+          console.log("IN Button");
+        });
+        button.image.addEventListener("mouseleave", () => {
+          button.image.style.border = "none";
+          console.log("Leaving Button");
+        });
+      });
 
     }));
   }
@@ -48,24 +63,46 @@ class OpeningPage{
 const Opening = new OpeningPage();
 
 const PongButtonSprites = ["../OpeningPageSprites/pongButton.png", "../OpeningPageSprites/pongButtonHovering.png"];
+const CommingSoonSprites1 = ["../OpeningPageSprites/commingSoonButton.png", "../OpeningPageSprites/commingSoonButtonHovering1.png"];
+const CommingSoonSprites2 = ["../OpeningPageSprites/commingSoonButton.png", "..//OpeningPageSprites/commingSoonButtonHovering2.png"];
 
 Opening.setup(Opening.ctx,(buttons) => {
 
   //pong button 
-  let PongButtonX = window.innerWidth * .20;
-  let PongButtonY = window.innerHeight * .40;
-  let PongButtonWidth = window.innerWidth * .20;
-  let PongButtonHeight = window.innerHeight * .30;
-  let pongButton = new Button(PongButtonX, PongButtonY, PongButtonWidth, PongButtonHeight, PongButtonSprites);
+  let PongButtonX = window.innerWidth * .425;
+  let PongButtonY = window.innerHeight * .20;
+  let ButtonWidth = window.innerWidth * .15;
+  let ButtonHeight = window.innerHeight * .20;
+  let Game2ButtonX = window.innerWidth * .30;
+  let Game2ButtonY = window.innerHeight * .50;
+  let Game2ButtonWidth = window.innerWidth * .15;
+  let Game2ButtonHeight = window.innerHeight * .20;
+  let Game3ButtonX = window.innerWidth * .55;
+  let Game3ButtonY = window.innerHeight * .50;
+  let Game3ButtonWidth = window.innerWidth * .15;
+  let Game3ButtonHeight = window.innerHeight * .20;
+
+
+  let pongButton = new Button(PongButtonX, PongButtonY, ButtonWidth, ButtonHeight, PongButtonSprites);
+  let game2Button = new Button(Game2ButtonX, Game2ButtonY, Game2ButtonWidth, Game2ButtonHeight, CommingSoonSprites1); 
+  let game3Button = new Button(Game3ButtonX, Game3ButtonY, Game3ButtonWidth, Game3ButtonHeight, CommingSoonSprites2);
   buttons.push(pongButton); 
+  buttons.push(game2Button);
+  buttons.push(game3Button);
+
 
 });
 
-Opening.checkUserInput();
-console.log(Opening.buttons[0]);
-Opening.buttons[0].image.onload = function(){  
-    Opening.buttons[0].render(Opening.ctx);
-}
+// load the images and then start rendering
+Opening.buttons.forEach(button => {
+  button.image.onload = () => {
+      button.render(Opening.ctx);
+  };
+});
+Opening.buttons[0].image.addEventListener('mouseenter', () => { console.log(working);});
+
+//check for input on buttons and resizing
+Opening.checkUserInput(Opening.buttons);
 
 Opening.loop(Opening.ctx, Opening.buttons);
 
