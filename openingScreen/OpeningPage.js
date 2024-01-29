@@ -13,7 +13,6 @@ class OpeningPage{
   setup(ctx, specificSetup){
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-    ctx.fillStyle = "grey"; 
     specificSetup(this.buttons);
   }
 
@@ -31,20 +30,18 @@ class OpeningPage{
       this.canvas.height = window.innerHeight;
       this.refill(this.ctx);
       this.buttons.forEach(button => {
-        button.adjust(this.canvas.width, this.canvas.height, oldCanvasWidth, oldCanvasHeight);
-        button.render(this.ctx);
+        button.adjust(this.canvas.width, this.canvas.height, oldCanvasWidth, oldCanvasHeight); 
       });
 
       //check for when mouse hovers over buttons
       buttons.forEach(button => { 
         console.log(button);
         button.newButton.addEventListener('mouseenter', () => { 
-          console.log("IN Button");
+          button.setButtonSprite(button.SpriteList[1]); 
         });
-        /*button.image.addEventListener("mouseleave", () => {
-          button.image.style.border = "none";
-          console.log("Leaving Button");
-        });*/
+        button.newButton.addEventListener("mouseleave", () => {
+          button.setButtonSprite(button.SpriteList[0]); 
+        });
       });
 
     }));
@@ -52,10 +49,7 @@ class OpeningPage{
 
   loop(ctx, buttons){
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    this.refill(ctx);
-    buttons.forEach((button) => {
-      button.render(ctx);
-    });
+    this.refill(ctx); 
   }
 }
 
@@ -83,9 +77,9 @@ Opening.setup(Opening.ctx,(buttons) => {
   let Game3ButtonHeight = window.innerHeight * .20;
 
 
-  let pongButton = new Button(PongButtonX, PongButtonY, ButtonWidth, ButtonHeight, PongButtonSprites, 'button');
-  let game2Button = new Button(Game2ButtonX, Game2ButtonY, Game2ButtonWidth, Game2ButtonHeight, CommingSoonSprites1, 'button'); 
-  let game3Button = new Button(Game3ButtonX, Game3ButtonY, Game3ButtonWidth, Game3ButtonHeight, CommingSoonSprites2, 'button');
+  let pongButton = new Button(PongButtonX, PongButtonY, ButtonWidth, ButtonHeight, PongButtonSprites);
+  let game2Button = new Button(Game2ButtonX, Game2ButtonY, Game2ButtonWidth, Game2ButtonHeight, CommingSoonSprites1); 
+  let game3Button = new Button(Game3ButtonX, Game3ButtonY, Game3ButtonWidth, Game3ButtonHeight, CommingSoonSprites2);
   buttons.push(pongButton); 
   buttons.push(game2Button);
   buttons.push(game3Button);
