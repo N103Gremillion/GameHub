@@ -45,7 +45,7 @@ class OpeningPage{
         button.newButton.addEventListener('click', () => {
           //check the tags and then sent to corresponding file path
           if (button.tag === "PongButton"){
-            window.location.href = "../pong/pong_html.html";
+            window.location.href = "../pong/PongSelectionScreen/PongSelection.html";
           }
 
           else if(button.tag === "SpaceInvadersButton"){
