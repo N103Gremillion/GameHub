@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gokuCollisionSprites = ["./pongSprites/gokuHit4.png", "./pongSprites/gokuHit5.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png"];
   
   // specify the canvas to setup and run the game on (create it in htmlFile)
-  Manager.setCanvasById("MultiPlayer_gamecanvas");
+  Manager.setCanvasById("SinglePlayer_gameCanvas");
 
   // setup gameObjects
   Manager.setup((gameObjects, Scores) => {
@@ -121,6 +121,5 @@ export {
   randomRGB,
   randomAngle
 }
-
 
 

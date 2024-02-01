@@ -1,5 +1,5 @@
 import Game_Object from "../Game_Object.js";
-import { randomAngle } from "./main.js";
+import { randomAngle } from "./MultiplayerSetup.js";
 import { Manager } from "../Game_Manager.js";
 
 export default class Ball extends Game_Object {

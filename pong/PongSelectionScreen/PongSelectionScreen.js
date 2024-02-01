@@ -49,7 +49,7 @@ export default class PongSelectionScreen extends OpeningPage{
       button.newButton.addEventListener('click', () => {
         //check the tags and then sent to corresponding file path
         if (button.tag === "1PlayerButton"){
-          console.log("I'm working on it for Christ sakes"); 
+          window.location.href = "../SinglePlayerSetup.html";
         }
 
         else if(button.tag === "2PlayerButton"){

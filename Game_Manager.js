@@ -2,14 +2,20 @@ import CollisionHandler from "./CollisionHandler.js";
 
 export default class Game_Manager {
   collisionHandler = new CollisionHandler();
-  canvas = document.getElementById('game_canvas');
-  ctx = this.canvas.getContext('2d');
-  backgroundImage = new Image();
+  canvas; 
+  ctx;
+  backgroundImage;
 
   constructor() {
     this.gameObjects = []; 
     this.Scores = [];
     this.backgroundMusic = new Audio();
+  }
+
+  setCanvasById(cavasId){
+    this.canvas = document.getElementById(cavasId);
+    this.ctx =  this.canvas.getContext('2d');
+    this.backgroundImage = new Image();
   }
 
   //input backgroundImage
