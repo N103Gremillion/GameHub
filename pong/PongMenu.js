@@ -14,7 +14,7 @@ export default class PongMenu{
     ctx.globalAlpha = 0.5
   }
   
-  open(){
+  open(Game_Manager){
     //setup buttons on menu
     //Play Button values
     const PlayButtonX = window.innerWidth * 0.4;
@@ -45,18 +45,19 @@ export default class PongMenu{
     this.buttons.push(new Button(QuitButtonX, QuitButtonY, QuitButtonWidth, QuitButtonHeight, QuitButtonSprites, QuitButtonTag));
 
     // listen for user input on all buttons
-    this.checkUserInput(this.buttons);
+    this.checkUserInput(this.buttons, Game_Manager);
   }
 
-  close(ctx, buttons){
-    ctx.globalAlpha = 1;
+  close(Game_Manager, buttons){
+    Game_Manager.ctx.globalAlpha = 1;
     buttons.forEach(button => {
+      console.log(button.tag);
       button.removeButton(button.tag); 
     });
-     Manager.menuOpen = false;
+     Game_Manager.menuOpen = false;
   }
   
-  checkUserInput(Menubuttons){
+  checkUserInput(Menubuttons, Game_Manager){
     Menubuttons.forEach(button => {
       button.newButton.addEventListener("mouseenter", () => {
         let buttonHoverImageUrl = button.SpriteList[1];
@@ -70,12 +71,13 @@ export default class PongMenu{
         // Play button pressed
         if (button.tag === "PlayButton"){ 
           console.log("PlayButtonPressed"); 
+          this.close(Game_Manager, this.buttons);
         }
         else if (button.tag === "OptionsButton"){
           console.log("OptionsButton");
         }
         else if (button.tag === "QuitButton"){
-          console.log("QuitButton");
+           window.location.href = "./PongSelectionScreen/PongSelection.html";
         }
       });
     });

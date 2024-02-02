@@ -104,7 +104,11 @@ export default class Button{
   //remove a button from screen
   removeButton(buttonId){
     const buttonToRemove = document.getElementById(buttonId);
-    document.body.removeChild(buttonToRemove);
+    if (buttonToRemove) {
+        buttonToRemove.parentNode.removeChild(buttonToRemove);
+    } else {
+        console.warn(`Button with id '${buttonId}' not found.`);
+    }
   }
 
 }

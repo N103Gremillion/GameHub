@@ -165,20 +165,20 @@ export default class Game_Manager {
 
     // pause the game and setup menu is this is opening the menu and close if this is clossing the menu
     if (this.menuOpen === true){
-      this.openMenu();
+      this.openMenu(this);
     }
     else {
-      this.closeMenu();
+      this.closeMenu(this);
     } 
   }
 
-  openMenu(){
+  openMenu(Game_Manager){
     //setup buttons and stuff will slow down perform however will be done this way for simplicity
-    this.menu.open();
+    this.menu.open(Game_Manager);
   }
 
   closeMenu(){
-    this.menu.close(this.ctx, this.menu.buttons);
+    this.menu.close(Game_Manager);
   }
    
 }
