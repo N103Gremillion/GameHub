@@ -45,13 +45,11 @@ export default class Game_Manager {
       const key = event.key.toLowerCase();
       InputsArray[key] = false; 
 
-      //checking if menu opens or closses
-      if (key === "escape"){
+    // toggle the menu 
+    if (key === "escape"){
         Game_Manager.toggleMenu();
       }
-    });
-
-    //tracking when escape is pressed to keep up when to open menu
+    }); 
 
     // Keep track of when the window is resized 
     window.addEventListener('resize', () => handleResize(Game_Manager));
@@ -64,13 +62,21 @@ export default class Game_Manager {
       Game_Manager.setup(() => {
         Game_Manager.gameObjects.forEach((element) => {
           element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
-          element.update();
+          if (!Game_Manager.menuOpen){
+            element.update();
+          }
           element.render(Game_Manager.ctx);
         });
         Game_Manager.Scores.forEach((element) => {
           element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
           element.render(Game_Manager.ctx);
         });
+        // when the menu is open update location and sizes of buttons
+        if (Game_Manager.menuOpen){
+          Game_Manager.menu.buttons.forEach(button => {
+            button.adjust(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
+          });
+        }
       });
     }
   }
@@ -172,7 +178,7 @@ export default class Game_Manager {
   }
 
   closeMenu(){
-    this.ctx.globalAlpha = 1;
+    this.menu.close(this.ctx, this.menu.buttons);
   }
    
 }

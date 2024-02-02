@@ -32,29 +32,29 @@ export default class OpeningPage{
       });
     });
 
-      //check for when mouse hovers over buttons
-      buttons.forEach(button => { 
-        button.newButton.addEventListener('mouseenter', () => { 
-          button.setButtonSprite(button.SpriteList[1]); 
-        });
-        button.newButton.addEventListener("mouseleave", () => {
-           button.setButtonSprite(button.SpriteList[0]); 
-        });
-        button.newButton.addEventListener('click', () => {
-          //check the tags and then sent to corresponding file path
-          if (button.tag === "PongButton"){
-            window.location.href = "../pong/PongSelectionScreen/PongSelection.html";
-          }
-
-          else if(button.tag === "SpaceInvadersButton"){
-            console.log("inside SpaceInvaders");
-          }
-
-          else if(button.tag === "SnakeButton"){
-            console.log("inside Snake");
-          }
-        });
+    //check for when mouse hovers over buttons
+    buttons.forEach(button => { 
+      button.newButton.addEventListener('mouseenter', () => { 
+        button.setButtonSprite(button.SpriteList[1]); 
       });
+      button.newButton.addEventListener("mouseleave", () => {
+         button.setButtonSprite(button.SpriteList[0]); 
+      });
+      button.newButton.addEventListener('click', () => {
+        //check the tags and then sent to corresponding file path
+        if (button.tag === "PongButton"){
+          window.location.href = "../pong/PongSelectionScreen/PongSelection.html";
+        }
+
+        else if(button.tag === "SpaceInvadersButton"){
+          console.log("inside SpaceInvaders");
+        }
+
+        else if(button.tag === "SnakeButton"){
+          console.log("inside Snake");
+        }
+      });
+    });
   }
 
   renderBackground(ctx){

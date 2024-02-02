@@ -101,4 +101,10 @@ export default class Button{
     this.setButtonValues(this._x, this._y, this._width, this._height);
   }
 
+  //remove a button from screen
+  removeButton(buttonId){
+    const buttonToRemove = document.getElementById(buttonId);
+    document.body.removeChild(buttonToRemove);
+  }
+
 }
