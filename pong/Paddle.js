@@ -104,8 +104,7 @@ export default class Paddle extends Game_Object {
   }
 
   playSound(url){
-    console.log(url);
-    console.log(this.soundList[0]);
+
     const audio = new Audio(url);
     if (url === this.soundList[0]){
       // decrease the sound a little cuz it is kinda a loud sound 

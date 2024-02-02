@@ -1,5 +1,8 @@
 export default class HtmlButton {
-  constructor(tag) {
-    return document.createElement(tag);
+  constructor(elemntType, buttonId) {
+    const button = document.createElement(elemntType);
+    button.id = buttonId;
+    return button;
+    
   }
 }

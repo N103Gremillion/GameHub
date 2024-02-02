@@ -83,7 +83,7 @@ export default class Ball extends Game_Object {
     this. radius *= newAspectRatio/oldAspectRatio;    
 
     // Adjust the velocity
-    this.velocity = window.innerWidth/300 + window.innerHeight/300;
+    this.velocity = window.innerWidth/400; 
   }
   findResultingAngle_HorizontalWall(initialAngle, wallAngle){
     let relativeAngle = initialAngle - wallAngle;
@@ -105,6 +105,7 @@ export default class Ball extends Game_Object {
   respawnBall(oldVelo){
     this.position.x = window.innerWidth/2 - this.radius;
     this.position.y = window.innerHeight/2 - this.radius;
+
     setTimeout(() => {
       this.direction = randomAngle(20, 70)/180 * Math.PI; 
       this.velocity = oldVelo;
@@ -127,8 +128,6 @@ export default class Ball extends Game_Object {
     // if it hits the top of a Paddle
     const initialAngle = this.direction; 
     if ((this.position.y + this.radius) < otherObject.position.y){
-      console.log(this.position.y + this.radius);
-      console.log(otherObject.position.y);
       this.direction = this.findResultingAngle_HorizontalWall(initialAngle, 0);
     }
     // if it hits the bottom of the Paddle

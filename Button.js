@@ -11,7 +11,7 @@ export default class Button{
     this.tag = tag;
 
     // Create button element
-    this.newButton = new HtmlButton('button');
+    this.newButton = new HtmlButton('button', this.tag);
     this.newButton.style.position = 'absolute';
     this.setButtonValues(this._x, this._y, this._width, this._height);
     this.setButtonSprite(this.SpriteList[0]);

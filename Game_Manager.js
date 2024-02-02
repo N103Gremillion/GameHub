@@ -1,21 +1,29 @@
 import CollisionHandler from "./CollisionHandler.js";
+import PongMenu from "./pong/PongMenu.js";
+import { InputMapping } from "./KeyboardMapping.js";
 
 export default class Game_Manager {
+  menu = new PongMenu();
   collisionHandler = new CollisionHandler();
-  canvas; 
-  ctx;
   backgroundImage;
 
   constructor() {
+    this.menuOpen = false;
     this.gameObjects = []; 
     this.Scores = [];
     this.backgroundMusic = new Audio();
+    this.canvas;
+    this.ctx;
+    this.canvasId;
+    this.menu;
   }
 
-  setCanvasById(cavasId){
-    this.canvas = document.getElementById(cavasId);
+  setCanvasById(canvasId){
+    this.canvasId = canvasId;
+    this.canvas = document.getElementById(canvasId);
     this.ctx =  this.canvas.getContext('2d');
     this.backgroundImage = new Image();
+    this.menu = new PongMenu(this.ctx);
   }
 
   //input backgroundImage
@@ -27,7 +35,7 @@ export default class Game_Manager {
   }
 
   inputHandling(InputsArray, Game_Manager) {
-    // Track when a key is pressed (not for special keys like shift)
+    // Track when a key is pressed (this tracks when a key is held down so not ideal if you only what to track a keypress 1 time)
     document.body.addEventListener('keydown', function(event) {
       const key = event.key.toLowerCase();
       InputsArray[key] = true;  
@@ -35,8 +43,15 @@ export default class Game_Manager {
 
     document.body.addEventListener('keyup', function(event) {
       const key = event.key.toLowerCase();
-      InputsArray[key] = false;  
+      InputsArray[key] = false; 
+
+      //checking if menu opens or closses
+      if (key === "escape"){
+        Game_Manager.toggleMenu();
+      }
     });
+
+    //tracking when escape is pressed to keep up when to open menu
 
     // Keep track of when the window is resized 
     window.addEventListener('resize', () => handleResize(Game_Manager));
@@ -70,11 +85,13 @@ export default class Game_Manager {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
     //update game
-    this.gameObjects.forEach((element) => {
-      element.update();
-    });
+    if (!this.menuOpen){
+      this.gameObjects.forEach((element) => {
+        element.update();
+      });
    
-    this.performCollisionChecking(tagsToCheck);
+      this.performCollisionChecking(tagsToCheck);
+    }
 
     //draw game
     this.gameObjects.forEach((element) => {
@@ -85,6 +102,11 @@ export default class Game_Manager {
     this.Scores.forEach((element) => {
       element.render(this.ctx);
     });
+
+    //check if menu is open
+    if (this.menuOpen){
+      this.menu.render(this.ctx);
+    }
     
     // Using lambda to prevent overuse and recursion error (this helps to only run startGame() when necessary)
     requestAnimationFrame(() => this.startGame(tagsToCheck));
@@ -132,7 +154,27 @@ export default class Game_Manager {
     this.backgroundMusic.pause();
   }
   
-  
+  toggleMenu(){
+    this.menuOpen = !this.menuOpen;
+
+    // pause the game and setup menu is this is opening the menu and close if this is clossing the menu
+    if (this.menuOpen === true){
+      this.openMenu();
+    }
+    else {
+      this.closeMenu();
+    } 
+  }
+
+  openMenu(){
+    //setup buttons and stuff will slow down perform however will be done this way for simplicity
+    this.menu.open();
+  }
+
+  closeMenu(){
+    this.ctx.globalAlpha = 1;
+  }
+   
 }
 
 const Manager = new Game_Manager();

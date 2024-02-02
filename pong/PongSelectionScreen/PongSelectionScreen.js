@@ -38,13 +38,18 @@ export default class PongSelectionScreen extends OpeningPage{
 
     //check for when mouse hovers over buttons
     buttons.forEach(button => { 
-      button.newButton.addEventListener('mouseenter', () => { 
+      button.newButton.addEventListener('mouseenter', () => {
         button.setButtonSprite(button.SpriteList[1]); 
-        this.loadBackgroundImage(this.backgroundList[1]);
+        
+        if (button.tag === "1PlayerButton" || button.tag === "2PlayerButton"){
+          this.loadBackgroundImage(this.backgroundList[1]);
+        }
       });
       button.newButton.addEventListener("mouseleave", () => {
         button.setButtonSprite(button.SpriteList[0]);
-        this.loadBackgroundImage(this.backgroundList[0]);
+        if (button.tag === "1PlayerButton" || button.tag === "2PlayerButton"){
+          this.loadBackgroundImage(this.backgroundList[0]);
+        }
       });
       button.newButton.addEventListener('click', () => {
         //check the tags and then sent to corresponding file path
@@ -54,6 +59,10 @@ export default class PongSelectionScreen extends OpeningPage{
 
         else if(button.tag === "2PlayerButton"){
           window.location.href = "../MultiplayerSetup.html";
+        }
+
+        else if (button.tag === "BackButton"){
+          window.location.href = "../../index.html";
         }
       });
     });
