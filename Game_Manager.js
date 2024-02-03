@@ -16,17 +16,21 @@ export default class Game_Manager {
     this.ctx;
     this.canvasId;
     this.menu;
+    this.gameMode;
   }
   
   // necessary to run this before setting up game so that the canvas is defined and can be drawn on
-  setCanvasById(canvasId){
+  setCanvasById(canvasId, gameMode, gameName){
     this.canvasId = canvasId;
     this.canvas = document.getElementById(canvasId);
     this.canvas.width = this.getValidCanvasWidth(window.innerWidth);
     this.canvas.height = this.getValidCanvasHeight(window.innerHeight);
     this.ctx =  this.canvas.getContext('2d');
     this.backgroundImage = new Image();
-    this.menu = new PongMenu(this.ctx);
+    if (gameName === "Pong"){
+       this.menu = new PongMenu();
+    }
+    this.gameMode = gameMode;
   }
 
   //input backgroundImage
@@ -88,6 +92,14 @@ export default class Game_Manager {
           Game_Manager.menu.buttons.forEach(button => {
             button.adjust(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
           });
+        }
+        // when the OptionsBox is open
+        if (Game_Manager.menu !== undefined){
+          if (Game_Manager.menu.optionsBoxOpen){
+             Game_Manager.menu.textBoxes.forEach(textBox => {
+               textBox.adjust(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
+             });
+          }
         }
       });
     }

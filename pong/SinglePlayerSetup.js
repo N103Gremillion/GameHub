@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const superGokuCollisonSprites = ["./pongSprites/superGHit4.png", "./pongSprites/superGHit5.png", "./pongSprites/superGHit6.png", "./pongSprites/superGHit6.png", "./pongSprites/superGHit6.png"];
   const gokuCollisionSprites = ["./pongSprites/gokuHit4.png", "./pongSprites/gokuHit5.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png", "./pongSprites/gokuHit6.png"];
   
-  // specify the canvas to setup and run the game on (create it in htmlFile)
-  Manager.setCanvasById("SinglePlayer_gameCanvas");
+  // specify the canvas to setup and run the game on (create it in htmlFile) also the mode and game
+  Manager.setCanvasById("SinglePlayer_gameCanvas", "SinglePlayerMode", "Pong");
 
   // setup gameObjects
   Manager.setup((gameObjects, Scores, Game_Manager) => {

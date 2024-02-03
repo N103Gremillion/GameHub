@@ -3,7 +3,7 @@ import TextBox from "../TextBox.js";
 
 export default class PongMenu{
 
-  constructor(){
+  constructor(ctx){
     this.optionsBoxOpen = false;
     this.buttons = [];
     this.textBoxes = [];
@@ -70,50 +70,17 @@ export default class PongMenu{
     const OptionsHeight = Game_Manager.canvas.height * 0.6;
     const OptionsTag = "PongOptionsBox";
 
-    // Options Text
-    const PongGameInstructions = 
-`General
-
-Escape: Close/Open Menu
-
-
-Player 1 (for Both Single and Multiplayer)
-
-W: up
-S: down
-
-Player 2 (if in Multiplayer)
-
-up_arrow: up
-down_arrow: down
-
-
-Rules
-
-Multiplayer
-
-1st one to reach a score of 10 wins
-
-
-Single Player
-
-Get the Highest Combo and get on the 
-Leader-board (the ball slowly gets faster over time)
-`;
-
     //values for the close button
     const CloseButtonX = Game_Manager.canvas.width * 0.3;
     const CloseButtonY = Game_Manager.canvas.height * 0.2;
-    const CloseButtonWidth = Game_Manager.canvas.width * 0.04;
-    const CloseButtonHeight = Game_Manager.canvas.height * 0.06;
-    const CloseButtonSprites = ["./pongSprites/PongMenu/CloseButton.png", "./pongSprites/PongMenu/CloseButtonHovering.png"];
+    const CloseButtonWidth = Game_Manager.canvas.width * 0.05;
+    const CloseButtonHeight = Game_Manager.canvas.height * 0.05;
+    const CloseButtonSprites = [];
     const CloseButtonTag = "CloseButton";
 
     //create the Options box and display appropriate text
-    this.textBoxes.push(new TextBox(OptionsX, OptionsY, OptionsWidth, OptionsHeight, OptionsTag, PongGameInstructions));
+    this.textBoxes.push(new TextBox(OptionsX, OptionsY, OptionsWidth, OptionsHeight, OptionsTag));
     this.buttons.push(new Button(CloseButtonX, CloseButtonY, CloseButtonWidth, CloseButtonHeight, CloseButtonSprites, CloseButtonTag));
-
-     this.checkUserInput(this.buttons, Game_Manager);
     
   }
 
