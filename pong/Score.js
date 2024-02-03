@@ -19,16 +19,6 @@ export default class Score{
   decreaseScore(amountToSubtract){
     this.score += amountToSubtract;
   }
-  render(ctx){
-    ctx.font = this.font;
-    ctx.fillStyle = this.color;
-    ctx.fillText(`${this.playerName}: ${this.score}`, this.x, this.y);
-
-    this.fontSize = fontSize;
-    this.fontFamily = fontFamily;
-    this.font =  `${fontSize}px ${fontFamily}`;
-    this.playerName = playerName;
-  }
   getScore(){
     return this.score;
   }

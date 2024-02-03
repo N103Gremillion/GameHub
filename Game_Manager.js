@@ -17,10 +17,13 @@ export default class Game_Manager {
     this.canvasId;
     this.menu;
   }
-
+  
+  // necessary to run this before setting up game so that the canvas is defined and can be drawn on
   setCanvasById(canvasId){
     this.canvasId = canvasId;
     this.canvas = document.getElementById(canvasId);
+    this.canvas.width = this.getValidCanvasWidth(window.innerWidth);
+    this.canvas.height = this.getValidCanvasHeight(window.innerHeight);
     this.ctx =  this.canvas.getContext('2d');
     this.backgroundImage = new Image();
     this.menu = new PongMenu(this.ctx);
@@ -47,7 +50,7 @@ export default class Game_Manager {
 
     // toggle the menu 
     if (key === "escape"){
-        Game_Manager.toggleMenu();
+        Game_Manager.toggleMenu(Game_Manager);
       }
     }); 
 
@@ -55,9 +58,20 @@ export default class Game_Manager {
     window.addEventListener('resize', () => handleResize(Game_Manager));
 
     function handleResize(Game_Manager) {
+
+      //open menu to prevent bugginess with collisions and stuff
+      if (!Game_Manager.menuOpen){
+        Game_Manager.toggleMenu(Game_Manager);
+      }
+
       // get old windowsize
       const oldCanvasWidth = Game_Manager.canvas.width;
-      const oldCanvasHeight = Game_Manager.canvas.height; 
+      const oldCanvasHeight = Game_Manager.canvas.height;
+
+      // set the minHeight and minWidth
+      Game_Manager.canvas.width = Game_Manager.getValidCanvasWidth(window.innerWidth);
+      Game_Manager.canvas.height = Game_Manager.getValidCanvasHeight(window.innerHeight);
+
       // Used to change the location of each element relative to the size of the window when being resized and there location
       Game_Manager.setup(() => {
         Game_Manager.gameObjects.forEach((element) => {
@@ -65,11 +79,9 @@ export default class Game_Manager {
           if (!Game_Manager.menuOpen){
             element.update();
           }
-          element.render(Game_Manager.ctx);
         });
         Game_Manager.Scores.forEach((element) => {
           element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
-          element.render(Game_Manager.ctx);
         });
         // when the menu is open update location and sizes of buttons
         if (Game_Manager.menuOpen){
@@ -82,9 +94,10 @@ export default class Game_Manager {
   }
 
   setup(setupTrigger) {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight; 
-    setupTrigger(this.gameObjects, this.Scores);
+    this.canvas.width = this.getValidCanvasWidth(window.innerWidth);
+    this.canvas.height = this.getValidCanvasHeight(window.innerHeight);
+    
+    setupTrigger(this.gameObjects, this.Scores, this);
   }
 
   startGame(tagsToCheck) {
@@ -160,15 +173,15 @@ export default class Game_Manager {
     this.backgroundMusic.pause();
   }
   
-  toggleMenu(){
+  toggleMenu(Game_Manager){
     this.menuOpen = !this.menuOpen;
 
     // pause the game and setup menu is this is opening the menu and close if this is clossing the menu
     if (this.menuOpen === true){
-      this.openMenu(this);
+      this.openMenu(Game_Manager);
     }
     else {
-      this.closeMenu(this);
+      this.closeMenu(Game_Manager);
     } 
   }
 
@@ -177,8 +190,31 @@ export default class Game_Manager {
     this.menu.open(Game_Manager);
   }
 
-  closeMenu(){
-    this.menu.close(Game_Manager);
+  closeMenu(Game_Manager){
+    this.menu.close(Game_Manager, this.menu.buttons);
+  }
+  
+  getValidCanvasWidth(windowWidth){
+    // min sizes for the canvas width
+    const minWidth = 700;
+    if (windowWidth <= minWidth){
+      return minWidth;
+    }
+    else{
+      return windowWidth; 
+    }
+  }
+
+  getValidCanvasHeight(windowHeight){
+    // min sizes for the canvas height
+    const minHeight = 500;
+    if (windowHeight <= minHeight){
+      return minHeight;
+    }
+    else{
+      return windowHeight; 
+    }
+
   }
    
 }

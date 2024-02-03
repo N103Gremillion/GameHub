@@ -1,5 +1,4 @@
-import HtmlButton from "../HtmlButton.js";
-
+import HtmlElement from "./HtmlElement.js";
 export default class Button{
   
   constructor(x, y, width, height, SpriteList, tag) {
@@ -11,7 +10,7 @@ export default class Button{
     this.tag = tag;
 
     // Create button element
-    this.newButton = new HtmlButton('button', this.tag);
+    this.newButton = new HtmlElement('button', this.tag);
     this.newButton.style.position = 'absolute';
     this.setButtonValues(this._x, this._y, this._width, this._height);
     this.setButtonSprite(this.SpriteList[0]);
