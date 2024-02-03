@@ -52,9 +52,12 @@ export default class Game_Manager {
       const key = event.key.toLowerCase();
       InputsArray[key] = false; 
 
-    // toggle the menu 
-    if (key === "escape"){
-        Game_Manager.toggleMenu(Game_Manager);
+      // toggle the menu 
+      if (key === "escape"){
+        // check if optionsBoxOpen is true
+        if (Game_Manager.menu !== undefined){
+          Game_Manager.toggleMenu(Game_Manager);
+        }
       }
     }); 
 
@@ -203,7 +206,12 @@ export default class Game_Manager {
   }
 
   closeMenu(Game_Manager){
-    this.menu.close(Game_Manager, this.menu.buttons);
+    if (Game_Manager.menu.optionsBoxOpen){
+       this.menu.toggleOptionsOpen(Game_Manager, Game_Manager.menu.buttons, Game_Manager.menu.textBoxes); 
+    }
+    else{
+      this.menu.close(Game_Manager, Game_Manager.menu.buttons);
+    }
   }
   
   getValidCanvasWidth(windowWidth){

@@ -59,4 +59,14 @@ export default class TextBox {
     this.setTextBoxValues(this.x, this.y, this.width, this.height, this.GameRules_GameInstructions);
   }
 
+  removeTextBox(textBoxTag){
+    const textBoxToRemove = document.getElementById(textBoxTag);
+    if (textBoxToRemove) {
+        textBoxToRemove.parentNode.removeChild(textBoxToRemove);
+    } 
+    else {
+        console.warn(`TextBox with id '${textBoxTag}' not found.`);
+    } 
+  }
+
 }

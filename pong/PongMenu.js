@@ -72,7 +72,7 @@ export default class PongMenu{
 
     // Options Text
     const PongGameInstructions = 
-`General
+`CONTROLS
 
 Escape: Close/Open Menu
 
@@ -88,7 +88,7 @@ up_arrow: up
 down_arrow: down
 
 
-Rules
+RULES
 
 Multiplayer
 
@@ -117,11 +117,20 @@ Leader-board (the ball slowly gets faster over time)
     
   }
 
-  closeOptions(Game_Manager){
+  closeOptions(Game_Manager, buttons, textBoxes){
+    // remove buttons and textboxes
+    buttons.forEach(button => {
+      button.removeButton(button.tag); 
+    });
+    
+    textBoxes.forEach(textBox => {
+      textBox.removeTextBox(textBox.tag);
+    });
+
     Game_Manager.ctx.globalAlpha = 1;
   }
 
-  toggleOptionsOpen(Game_Manager){
+  toggleOptionsOpen(Game_Manager, buttons, textBoxes){
     this.optionsBoxOpen = !this.optionsBoxOpen;
 
     //checking weather to open or close the OptionsBox
@@ -130,7 +139,10 @@ Leader-board (the ball slowly gets faster over time)
       this.openOptions(Game_Manager);
     }
     else{
-      this.closeOptions(Game_Manager);
+      this.closeOptions(Game_Manager, buttons, textBoxes);
+      if (Game_Manager.menuOpen){
+        this.open(Game_Manager);
+      }
     }
   }
   
@@ -153,7 +165,10 @@ Leader-board (the ball slowly gets faster over time)
           this.toggleOptionsOpen(Game_Manager);
         }
         else if (button.tag === "QuitButton"){
-           window.location.href = "./PongSelectionScreen/PongSelection.html";
+          window.location.href = "./PongSelectionScreen/PongSelection.html";
+        }
+        else if (button.tag === "CloseButton"){
+          this.toggleOptionsOpen(Game_Manager, this.buttons, this.textBoxes)
         }
       });
     });
