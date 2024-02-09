@@ -17,6 +17,7 @@ export default class Game_Manager {
     this.canvasId;
     this.menu;
     this.gameMode;
+    this.game;
   }
   
   // necessary to run this before setting up game so that the canvas is defined and can be drawn on
@@ -31,6 +32,8 @@ export default class Game_Manager {
        this.menu = new PongMenu();
     }
     this.gameMode = gameMode;
+    this.game = gameName;
+    console.log(`The game Mode is ${this.gameMode} and the Game is ${this.game}`);
   }
 
   //input backgroundImage
