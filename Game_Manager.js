@@ -33,7 +33,7 @@ export default class Game_Manager {
     }
     this.gameMode = gameMode;
     this.game = gameName;
-    console.log(`The game Mode is ${this.gameMode} and the Game is ${this.game}`);
+    console.log(`The game Mode is ${this.gameMode} and the Game is ${this.game}.`);
   }
 
   //input backgroundImage
