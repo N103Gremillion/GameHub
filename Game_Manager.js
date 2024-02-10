@@ -1,14 +1,17 @@
 import CollisionHandler from "./CollisionHandler.js";
 import PongMenu from "./pong/PongMenu.js";
+import MultiplayerEndingScreen from "./pong/EndingScreens/MultiplayerEndingScreen.js";
+import PongHighScoreScreen from "./pong/EndingScreens/PongHighScoreScreen.js";
 import { InputMapping } from "./KeyboardMapping.js";
 
 export default class Game_Manager {
-  menu = new PongMenu();
+  menu;
   collisionHandler = new CollisionHandler();
-  backgroundImage;
-
+  
   constructor() {
+    this.backgroundImage;
     this.menuOpen = false;
+    this.endingScreen = false;
     this.gameObjects = []; 
     this.Scores = [];
     this.backgroundMusic = new Audio();
@@ -18,6 +21,7 @@ export default class Game_Manager {
     this.menu;
     this.gameMode;
     this.game;
+    this.endingScreenPage;
   }
   
   // necessary to run this before setting up game so that the canvas is defined and can be drawn on
@@ -33,7 +37,17 @@ export default class Game_Manager {
     }
     this.gameMode = gameMode;
     this.game = gameName;
-    console.log(`The game Mode is ${this.gameMode} and the Game is ${this.game}.`);
+    //checking for the possible games and adding the appropriate endingScreen
+    // Pong
+    if (this.game === 'Pong'){
+      if (this.gameMode === 'MultiPlayerMode'){
+        this.endingScreenPage = new MultiplayerEndingScreen();
+      }
+      else if (this.gameMode === 'SinglePlayerMode'){
+        this.endingScreenPage = new PongHighScoreScreen();
+      }
+      this.menu = new PongMenu();
+    }
   }
 
   //input backgroundImage
@@ -122,7 +136,7 @@ export default class Game_Manager {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
     //update game
-    if (!this.menuOpen){
+    if (!this.menuOpen && !this.endingScreen){
       this.gameObjects.forEach((element) => {
         element.update();
       });
@@ -143,6 +157,11 @@ export default class Game_Manager {
     //check if menu is open
     if (this.menuOpen){
       this.menu.render(this.ctx);
+    }
+
+    // when you hit the endingScreen
+    if (this.endingScreen){
+      this.endingScreenPage.render(this.ctx);
     }
     
     // Using lambda to prevent overuse and recursion error (this helps to only run startGame() when necessary)
@@ -194,7 +213,7 @@ export default class Game_Manager {
   toggleMenu(Game_Manager){
     this.menuOpen = !this.menuOpen;
 
-    // pause the game and setup menu is this is opening the menu and close if this is clossing the menu
+    // pause the game and setup menu if this is opening and closses the menu if this is clossing the menu
     if (this.menuOpen === true){
       this.openMenu(Game_Manager);
     }
@@ -204,6 +223,7 @@ export default class Game_Manager {
   }
 
   openMenu(Game_Manager){
+
     //setup buttons and stuff will slow down perform however will be done this way for simplicity
     this.menu.open(Game_Manager);
   }
@@ -217,6 +237,7 @@ export default class Game_Manager {
     }
   }
   
+  // used to prevent the canvas from getting to small
   getValidCanvasWidth(windowWidth){
     // min sizes for the canvas width
     const minWidth = 700;
@@ -228,6 +249,7 @@ export default class Game_Manager {
     }
   }
 
+  // used to prevent the canvas from getting to small
   getValidCanvasHeight(windowHeight){
     // min sizes for the canvas height
     const minHeight = 500;

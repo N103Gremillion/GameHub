@@ -49,6 +49,13 @@ export default class Ball extends Game_Object {
       const oldVelo = this.velocity;
       this.velocity = 0;
       Manager.Scores[1].increaseScore(1);
+
+      if (Manager.Scores[1].getScore() >= Manager.Scores[1].MAXSCORE){
+        Manager.endingScreenPage.open(Manager);
+        Manager.endingScreen = true;
+        console.log("player2 has won the game");
+      }
+
       setTimeout(() => this.respawnBall(oldVelo), 500);
     }
     // if it hits the right wall
@@ -57,9 +64,15 @@ export default class Ball extends Game_Object {
       const oldVelo = this.velocity;
       this.velocity = 0;
       Manager.Scores[0].increaseScore(1);
+
+      if (Manager.Scores[0].getScore() >= Manager.Scores[0].MAXSCORE){
+        Manager.endingScreenPage.open(Manager);
+        Manager.endingScreen = true;
+        console.log("player1 has won the game");
+      }
+
       setTimeout(() => this.respawnBall(oldVelo), 500);
     }
-
     //adjust the sprite src and only and splice off the baseUrl for checking purposses
     const baseUrl = "http://localhost/pong";
     const trimmedUrl = this.image.src.split(baseUrl);
