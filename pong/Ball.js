@@ -52,7 +52,6 @@ export default class Ball extends Game_Object {
 
       if (Manager.Scores[1].getScore() >= Manager.Scores[1].MAXSCORE){
         Manager.endingScreenPage.open(Manager);
-        Manager.endingScreen = true;
         console.log("player2 has won the game");
       }
 
@@ -67,7 +66,6 @@ export default class Ball extends Game_Object {
 
       if (Manager.Scores[0].getScore() >= Manager.Scores[0].MAXSCORE){
         Manager.endingScreenPage.open(Manager);
-        Manager.endingScreen = true;
         console.log("player1 has won the game");
       }
 

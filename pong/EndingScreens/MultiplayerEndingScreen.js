@@ -5,9 +5,13 @@ export default class MultiplayerEndingScreen{
   constructor(){
     this.multiplayerEndingScreen = false;
     this.buttons = [];
+    this.fontFamily;
+    this.fontColor;
+    this.fontSize;
+    this.winner;
   }
   
-  open(Game_Manager) { 
+  open(Game_Manager) {
 
     const superGokuScore = Game_Manager.Scores[0].getScore();
     const gokuScore = Game_Manager.Scores[1].getScore();
@@ -28,10 +32,10 @@ export default class MultiplayerEndingScreen{
   addElements(Game_Manager, WinningPlayer){
     
     if (WinningPlayer === 'Player1'){
-
+      this.addText(Game_Manager, WinningPlayer);
     }
     else if (WinningPlayer === 'Player2'){
-
+      this.addText(Game_Manager, WinningPlayer);
     }
     
     // exit button values
@@ -39,15 +43,39 @@ export default class MultiplayerEndingScreen{
     const exitButtonY = Game_Manager.canvas.height * 0.7;
     const exitButtonWidth = Game_Manager.canvas.width * 0.2;
     const exitButtonHeight = Game_Manager.canvas.height * 0.1;
-    const exitButtonSprites = ['../pongSprites/exit.png', '../pongSprites/exitHovering.png'];
+    const exitButtonSprites = ['http://Localhost/pong/pongSprites/exit.png', 'http://Localhost/pong/pongSprites/exitHovering.png'];
     const exitButtonTag = 'ExitButton';
     this.buttons.push(new Button(exitButtonX, exitButtonY, exitButtonWidth, exitButtonHeight, exitButtonSprites, exitButtonTag));
     this.checkUserInput(this.buttons, Game_Manager);
 
   }
 
-  render(ctx){
+  addText(Game_Manager, WinningPlayer){
 
+    
+    this.fontFamily = 'Arial';
+    this.fontSize = Game_Manager.canvas.width/Game_Manager.canvas.height * 20;
+
+    if (WinningPlayer === 'Player1'){ 
+      this.fontColor = 'Blue';
+      this.winner = "SuperGoku";
+      this.render(Game_Manager, Game_Manager.ctx);
+    }
+    else if (WinningPlayer === 'Player2'){
+      this.fontColor = 'Red';
+      this.winner = "NormalGoku";
+      this.render(Game_Manager, Game_Manager.ctx);
+    }
+    Game_Manager.endingScreen = true;
+  }
+
+  render(Game_Manager, ctx){
+    const textX = Game_Manager.canvas.width * .45;
+    const textY = Game_Manager.canvas.height * .1;
+
+    ctx.font = this.fontFamily;
+    ctx.fillStyle = this.fontColor;
+    ctx.fillText(`${this.winner} Wins`, textX, textY);
   }
 
   checkUserInput(Menubuttons, Game_Manager){
@@ -64,6 +92,7 @@ export default class MultiplayerEndingScreen{
         // Exit button pressed
         if (button.tag === "ExitButton"){ 
           console.log("Eixting game"); 
+          window.location.href = "http://Localhost/pong/PongSelectionScreen/PongSelection.html";
         }
       });
     });

@@ -70,7 +70,7 @@ export default class Game_Manager {
       InputsArray[key] = false; 
 
       // toggle the menu 
-      if (key === "escape"){
+      if (key === "escape" && !Game_Manager.endingScreen){
         // check if optionsBoxOpen is true
         if (Game_Manager.menu !== undefined){
           Game_Manager.toggleMenu(Game_Manager);
@@ -84,7 +84,7 @@ export default class Game_Manager {
     function handleResize(Game_Manager) {
 
       //open menu to prevent bugginess with collisions and stuff
-      if (!Game_Manager.menuOpen){
+      if (!Game_Manager.menuOpen && !Game_Manager.endingScreen){
         Game_Manager.toggleMenu(Game_Manager);
       }
 
@@ -100,7 +100,7 @@ export default class Game_Manager {
       Game_Manager.setup(() => {
         Game_Manager.gameObjects.forEach((element) => {
           element.adjustValues(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
-          if (!Game_Manager.menuOpen){
+          if (!Game_Manager.menuOpen && !Game_Manager.endingScreen){
             element.update();
           }
         });
@@ -121,6 +121,11 @@ export default class Game_Manager {
              });
           }
         }
+        if (Game_Manager.endingScreen){
+          Game_Manager.endingScreenPage.buttons.forEach(button => {
+            button.adjust(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
+          });
+        }
       });
     }
   }
@@ -140,11 +145,10 @@ export default class Game_Manager {
       this.gameObjects.forEach((element) => {
         element.update();
       });
-   
       this.performCollisionChecking(tagsToCheck);
     }
 
-    //draw game
+    //draw game objects
     this.gameObjects.forEach((element) => {
       element.render(this.ctx);
     });
@@ -156,13 +160,13 @@ export default class Game_Manager {
 
     //check if menu is open
     if (this.menuOpen){
-      this.menu.render(this.ctx);
+      this.menu.render(this, this.ctx);
     }
 
     // when you hit the endingScreen
     if (this.endingScreen){
-      this.endingScreenPage.render(this.ctx);
-    }
+      this.endingScreenPage.render(this, this.ctx);
+    } 
     
     // Using lambda to prevent overuse and recursion error (this helps to only run startGame() when necessary)
     requestAnimationFrame(() => this.startGame(tagsToCheck));

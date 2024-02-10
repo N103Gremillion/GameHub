@@ -1,7 +1,7 @@
 export default class Score{
 
   constructor(x, y, color, fontSize, fontFamily, playerName){
-    this.MAXSCORE = 1;
+    this.MAXSCORE = 10;
     this.score = 0;
     this.x = x;
     this.y = y;
