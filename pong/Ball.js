@@ -3,7 +3,7 @@ import { randomAngle } from "./MultiplayerSetup.js";
 import { Manager } from "../Game_Manager.js";
 
 export default class Ball extends Game_Object {
-  constructor(radius, velocity, x, y, direction, tag, spriteArray, bounceSound){ 
+  constructor(radius, velocity, x, y, direction, tag, spriteArray, bounceSound, incrementTimer){ 
     super(x,y,tag);
     this.radius = radius;
     this.velocity = velocity;
@@ -13,6 +13,7 @@ export default class Ball extends Game_Object {
     this.image.src = spriteArray[0]; 
     this.timer = 0;
     this.bounceSound = bounceSound;
+    this.incrementTimer = incrementTimer;
     }
   
   render(ctx){
@@ -45,30 +46,56 @@ export default class Ball extends Game_Object {
     }
     // if it hits the left wall
     else if (this.position.x < 0){ 
+      
+      const PONG = 'Pong';
+      const SINGLEPLAYER = 'SinglePlayerMode';
+      const MULTIPLAYERMODE = 'MultiPlayerMode';
       this.position.x = 0 + this.radius;
       const oldVelo = this.velocity;
       this.velocity = 0;
-      Manager.Scores[1].increaseScore(1);
+      
+      // for the pong game
+      if (Manager.gameMode === MULTIPLAYERMODE && Manager.game === PONG){
 
-      if (Manager.Scores[1].getScore() >= Manager.Scores[1].MAXSCORE){
-        Manager.endingScreenPage.open(Manager);
-        console.log("player2 has won the game");
+        Manager.Scores[1].increaseScore(1);
+        setTimeout(() => this.respawnBall(oldVelo), 500);
+
+        if (Manager.Scores[1].getScore() >= Manager.Scores[1].MAXSCORE){
+          Manager.endingScreenPage.open(Manager);
+          console.log("player2 has won the game");
+        }
+
       }
 
-      setTimeout(() => this.respawnBall(oldVelo), 500);
+      else if (Manager.gameMode === SINGLEPLAYER && Manager.game === PONG){
+        console.log('You have lost');
+      }
+
     }
+
     // if it hits the right wall
     else if (this.position.x > window.innerWidth){
+      const PONG = 'Pong';
+      const SINGLEPLAYER = 'SinglePlayerMode';
+      const MULTIPLAYERMODE = 'MultiPlayerMode';
       this.position.x = window.innerWidth - (this.radius * 2);
       const oldVelo = this.velocity;
       this.velocity = 0;
-      Manager.Scores[0].increaseScore(1);
 
-      if (Manager.Scores[0].getScore() >= Manager.Scores[0].MAXSCORE){
-        Manager.endingScreenPage.open(Manager);
-        console.log("player1 has won the game");
+      // change score and stuff
+      if (Manager.game === PONG && Manager.gameMode === MULTIPLAYERMODE){
+        Manager.Scores[0].increaseScore(1);
+        if (Manager.Scores[0].getScore() >= Manager.Scores[0].MAXSCORE){
+          Manager.endingScreenPage.open(Manager);
+          console.log("player1 has won the game");
+        }
       }
 
+      else if (Manager.game === PONG && Manager.gameMode === SINGLEPLAYER){
+
+      }
+      
+      // respawn ball
       setTimeout(() => this.respawnBall(oldVelo), 500);
     }
     //adjust the sprite src and only and splice off the baseUrl for checking purposses
@@ -108,9 +135,25 @@ export default class Ball extends Game_Object {
     reflection += (2 * Math.PI);
     return reflection % (2 * Math.PI);
   }
+
   moveBall(){
+    
+    // small increase in the velocity if the game Mode is SinglePlayerMode
+    const SINGLEPLAYER = 'SinglePlayerMode';
+    if (Manager.gameMode === SINGLEPLAYER){
+      // how many times this runs before increasing the velocity
+      this.incrementTimer ++;
+      // if there is not an interval already running
+      if (this.incrementTimer >= 1000){
+        console.log(Manager.canvas.width/2000);
+        this.velocity += Manager.canvas.width/4000;
+        this.incrementTimer = 0;
+
+      }
+    }
     this.position.x += this.velocity * Math.sin(this.direction);
     this.position.y += this.velocity * Math.cos(this.direction); 
+
   }
   
   respawnBall(oldVelo){

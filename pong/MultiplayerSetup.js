@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let player2ScoreName = 'player2';
     
 
-    gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, superGokuSprites, superGokuCollisonSprites, 'w', 's', "Paddle", paddleSounds));
-    gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, gokuSprites, gokuCollisionSprites, 'arrowup', 'arrowdown', "Paddle", paddleSounds));
+    gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, superGokuSprites, superGokuCollisonSprites, 'w', 's', "Paddle", paddleSounds, 'Player1'));
+    gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, gokuSprites, gokuCollisionSprites, 'arrowup', 'arrowdown', "Paddle", paddleSounds, 'Player1'));
     gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection, "Ball", dragonBallSprites, ballSound));
     //scores for the players
     Scores.push(new Score(player1ScoreX, player1ScoreY, player1ScoreColor, player1fontSize, player1font, player1ScoreName));

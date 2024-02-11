@@ -1,8 +1,9 @@
 import Game_Object from "../Game_Object.js";
 import { InputMapping } from "../KeyboardMapping.js";
+import { Manager } from "../Game_Manager.js";
 
 export default class Paddle extends Game_Object {
-  constructor(width, height,velocity,x,y, spriteArray, collisionSpriteArray, UP, DOWN, tag, soundList){
+  constructor(width, height,velocity,x,y, spriteArray, collisionSpriteArray, UP, DOWN, tag, soundList, name){
     super(x,y, tag);
     this.image = new Image();
     // default to the 1st sprite in the list
@@ -16,6 +17,7 @@ export default class Paddle extends Game_Object {
     this.collisionSprite = collisionSpriteArray[0];
     this.isColliding =  false;
     this.soundList = soundList;
+    this.name = name;
   }
 
   render(ctx){
@@ -23,19 +25,36 @@ export default class Paddle extends Game_Object {
   }
 
   update(){
-    // when hitting the boarders
-    if (InputMapping[this.keys.UP] == true && this.position.y > 0){
-      this.position.y -= this.velocity;
-    }
-    else if (InputMapping[this.keys.DOWN] == true && this.position.y < (window.innerHeight - this.size.height) ){
-      this.position.y += this.velocity;
-    }
 
-    //adjust the sprite src and only and splice off the baseUrl for checking purposses
+    //animation 
     const baseUrl = "http://localhost/pong";
     const trimmedUrl = this.image.src.split(baseUrl);
     // since the sprite location are relative the . is necessary
     this.animateSprite(this.spriteArray.indexOf("." + trimmedUrl[1])); 
+
+    // position (only allow for input when the paddle is a player and not when it is a CPU)
+    if (this.name != 'CPU'){
+      // when hitting the boarders
+      if (InputMapping[this.keys.UP] == true && this.position.y > 0){
+        this.position.y -= this.velocity;
+      }
+      else if (InputMapping[this.keys.DOWN] == true && this.position.y < (window.innerHeight - this.size.height) ){
+        this.position.y += this.velocity;
+      }
+    }
+    // when it is a CPU
+    else{
+
+      // get the ball and mirror
+      const BALL = Manager.gameObjects[2];
+      const BALLY = BALL.position.y - (BALL.radius * 3);
+      
+      // mirror the ball y so that the computer is essentially impossible to beat
+      if (this.position.x > BALL.position.x){
+        this.position.y = BALLY;      
+      }
+
+    }
   }
 
   // function to help with the aspect ratio
@@ -63,6 +82,16 @@ export default class Paddle extends Game_Object {
   }
   
   onCollision(otherObject){
+    const PONG = 'Pong'; 
+    const SINGLEPLAYER = 'SinglePlayerMode';
+    const PLAYERNAME = this.name;
+
+    // when the game is in single player and the ball collides with the cpu Paddle
+    if (Manager.game ===  PONG && Manager.gameMode === SINGLEPLAYER && PLAYERNAME === 'Player1'){
+      const PLAYERSCORE = Manager.Scores[0];
+      PLAYERSCORE.increaseScore(1);
+    }
+
     // pass in the basic hit sound when the objects collide
     this.playSound(this.soundList[0]);
     this.isColliding = true;    

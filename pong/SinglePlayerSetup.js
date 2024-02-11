@@ -42,26 +42,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let ballY =  CANVAS_HEIGHT/2 - radius;
     let ballDirection = randomAngle(30, 60);
     let ballSound = "./pongSounds/ballBouncingSound.mp3";
-    let player1ScoreX = CANVAS_WIDTH * 0.05;
+    let incrementTimer = 0;
+    let player1ScoreX = CANVAS_WIDTH * 0.45;
     let player1ScoreY = CANVAS_HEIGHT * 0.10;
-    let player1ScoreColor = 'blue';
-    let player1fontSize = CANVAS_WIDTH/CANVAS_HEIGHT * 15;
+    let player1ScoreColor = 'Black';
+    let player1fontSize = CANVAS_WIDTH/CANVAS_HEIGHT * 25;
     let player1font = 'cursive';
-    let player1ScoreName = 'player1'; 
-    let player2ScoreX = CANVAS_WIDTH * 0.80;
-    let player2ScoreY = CANVAS_HEIGHT * 0.10;
-    let player2ScoreColor = 'red';
-    let player2fontSize = CANVAS_WIDTH/CANVAS_HEIGHT * 15;
-    let player2font = 'cursive';
-    let player2ScoreName = 'player2';
-    
+    let player1ScoreName = 'Score  ';     
 
-    gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, superGokuSprites, superGokuCollisonSprites, 'w', 's', "Paddle", paddleSounds));
-    gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, gokuSprites, gokuCollisionSprites, 'arrowup', 'arrowdown', "Paddle", paddleSounds));
-    gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection, "Ball", dragonBallSprites, ballSound));
+    gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle1X, paddleY, superGokuSprites, superGokuCollisonSprites, 'w', 's', "Paddle", paddleSounds, 'Player1'));
+    gameObjects.push(new Paddle(paddleWidth, paddleHeight, paddleVelocity, paddle2X, paddleY, gokuSprites, gokuCollisionSprites, 'arrowup', 'arrowdown', "Paddle", paddleSounds, 'CPU'));
+    gameObjects.push(new Ball(radius, ballVelocity, ballX, ballY, ballDirection, "Ball", dragonBallSprites, ballSound, incrementTimer));
     //scores for the players
     Scores.push(new Score(player1ScoreX, player1ScoreY, player1ScoreColor, player1fontSize, player1font, player1ScoreName));
-    Scores.push(new Score(player2ScoreX, player2ScoreY, player2ScoreColor, player2fontSize, player2font, player2ScoreName));
   });
 
   //backgroundImage
