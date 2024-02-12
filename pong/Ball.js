@@ -62,19 +62,20 @@ export default class Ball extends Game_Object {
 
         if (Manager.Scores[1].getScore() >= Manager.Scores[1].MAXSCORE){
           Manager.endingScreenPage.open(Manager);
-          console.log("player2 has won the game");
         }
 
       }
 
       else if (Manager.gameMode === SINGLEPLAYER && Manager.game === PONG){
-        console.log('You have lost');
+        // if the ball hits the left then your combo ends
+        Manager.endingScreenPage.open(Manager);
       }
 
     }
 
     // if it hits the right wall
     else if (this.position.x > window.innerWidth){
+
       const PONG = 'Pong';
       const SINGLEPLAYER = 'SinglePlayerMode';
       const MULTIPLAYERMODE = 'MultiPlayerMode';
