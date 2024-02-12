@@ -33,6 +33,7 @@ export default class PongHighScoreScreen{
     const exitButtonTag = 'ExitButton';
     this.buttons.push(new Button(exitButtonX, exitButtonY, exitButtonWidth, exitButtonHeight, exitButtonSprites, exitButtonTag));
     this.checkUserInput(this.buttons, Game_Manager);
+    Game_Manager.endingScreen = true;
   }
 
   checkUserInput(buttons, Game_Manager){
