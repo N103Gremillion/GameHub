@@ -41,10 +41,10 @@ export default class Game_Manager {
     // Pong
     if (this.game === 'Pong'){
       if (this.gameMode === 'MultiPlayerMode'){
-        this.endingScreenPage = new MultiplayerEndingScreen();
+        this.endingScreenPage = new MultiplayerEndingScreen("PongMultiplayerEndingScreen");
       }
       else if (this.gameMode === 'SinglePlayerMode'){
-        this.endingScreenPage = new PongHighScoreScreen();
+        this.endingScreenPage = new PongHighScoreScreen("PongHighScoreScreen");
       }
       this.menu = new PongMenu();
     }
@@ -121,10 +121,17 @@ export default class Game_Manager {
              });
           }
         }
+        // when hitting the ending screen
         if (Game_Manager.endingScreen){
           Game_Manager.endingScreenPage.buttons.forEach(button => {
             button.adjust(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
           });
+          if (Game_Manager.endingScreenPage.tag === "PongHighScoreScreen"){
+            console.log("yo");
+            Game_Manager.endingScreenPage.textBoxes.forEach(textBox => {
+                textBox.adjust(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
+            });
+          }
         }
       });
     }

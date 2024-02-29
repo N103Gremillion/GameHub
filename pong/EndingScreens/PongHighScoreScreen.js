@@ -1,13 +1,20 @@
 import Button from "../../Button.js";
+import TextBox from "../../TextBox.js";
+import { connectToMongo } from "../backend/DataBaseConnection.js";
 
 export default class PongHighScoreScreen{
   
-  constructor(){
+  constructor(tag){
     this.pongHighScoreScreen = false;
     this.buttons = [];
+    this.textBoxes = [];
+    this.tag = tag;
   }
 
   open(Game_Manager){
+
+    // fetch values from database and compare to the given Scores
+    connectToMongo();
 
     // ending score
     const ENDINGSCORE = Game_Manager.Scores[0].getScore();
@@ -26,11 +33,46 @@ export default class PongHighScoreScreen{
 
     // exit button values
     const exitButtonX = Game_Manager.canvas.width * 0.4;
-    const exitButtonY = Game_Manager.canvas.height * 0.7;
+    const exitButtonY = Game_Manager.canvas.height * 0.85;
     const exitButtonWidth = Game_Manager.canvas.width * 0.2;
     const exitButtonHeight = Game_Manager.canvas.height * 0.1;
     const exitButtonSprites = ['http://Localhost/pong/pongSprites/exit.png', 'http://Localhost/pong/pongSprites/exitHovering.png'];
     const exitButtonTag = 'ExitButton';
+
+    // add the text box that will hold the high scores 
+    const HighScoreBoxX = Game_Manager.canvas.width * 0.3;
+    const HighScoreBoxY = Game_Manager.canvas.height * 0.2;
+    const HighScoreBoxWidth = Game_Manager.canvas.width * 0.4;
+    const HighScoreBoxHeight = Game_Manager.canvas.height * 0.6;
+    const HighScoreBoxTag = "PongHighScoreBox";
+    const HighScoreBoxText = `
+    HIGH SCORES
+  ----------------------
+PLACE    NAME        SCORE
+  -------     ----------    ---------  
+
+1st     Nathan          ${SCORE}
+
+2nd
+
+3rd
+
+4th
+
+5th
+
+6th
+
+7th
+
+8th
+
+9th
+
+-----------------------
+`;
+    const HIGHSCORETEXTBOX = new TextBox(HighScoreBoxX, HighScoreBoxY, HighScoreBoxWidth, HighScoreBoxHeight, HighScoreBoxTag, HighScoreBoxText);
+    this.textBoxes.push(HIGHSCORETEXTBOX);
     this.buttons.push(new Button(exitButtonX, exitButtonY, exitButtonWidth, exitButtonHeight, exitButtonSprites, exitButtonTag));
     this.checkUserInput(this.buttons, Game_Manager);
     Game_Manager.endingScreen = true;

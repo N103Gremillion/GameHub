@@ -43,6 +43,12 @@ export default class TextBox {
     return fontSize;
   }
 
+  changeTextAlignment(textLocation){
+    
+    this.htmlTextBox.style.textAlign = textLocation;
+
+  }
+
   adjust( newCanvasWidth, newCanvasHeight, oldCanvasWidth, oldCanvasHeight){
 
     //aspect rotios (width/height)

@@ -2,13 +2,14 @@ import Button from "../../Button.js";
 
 export default class MultiplayerEndingScreen{
 
-  constructor(){
+  constructor(tag){
     this.multiplayerEndingScreen = false;
     this.buttons = [];
     this.fontFamily;
     this.fontColor;
     this.fontSize;
     this.winner;
+    this.tag = tag;
   }
   
   open(Game_Manager) {
