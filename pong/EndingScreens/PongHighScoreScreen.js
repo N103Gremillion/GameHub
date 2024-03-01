@@ -1,6 +1,6 @@
 import Button from "../../Button.js";
 import TextBox from "../../TextBox.js";
-import { connectToMongo } from "../backend/DataBaseConnection.js";
+const { connectToMongo } = require('../backend/DataBaseConnection.cjs');
 
 export default class PongHighScoreScreen{
   
