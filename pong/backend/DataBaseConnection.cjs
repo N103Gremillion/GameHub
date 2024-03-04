@@ -1,5 +1,6 @@
 // trying to communicate with my databse using express and mongoose
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -12,6 +13,7 @@ const collectionName = 'playerScores';
 
 // Function to establish a connection to MongoDB
 async function connectToMongo() {
+  app.use(cors());
 
   try {
 

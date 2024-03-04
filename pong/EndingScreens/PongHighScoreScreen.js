@@ -1,6 +1,6 @@
 import Button from "../../Button.js";
 import TextBox from "../../TextBox.js";
-const { connectToMongo } = require('../backend/DataBaseConnection.cjs');
+import getScores from "./requestScores.js"; 
 
 export default class PongHighScoreScreen{
   
@@ -14,7 +14,7 @@ export default class PongHighScoreScreen{
   open(Game_Manager){
 
     // fetch values from database and compare to the given Scores
-    connectToMongo();
+    getScores();
 
     // ending score
     const ENDINGSCORE = Game_Manager.Scores[0].getScore();
@@ -49,7 +49,7 @@ export default class PongHighScoreScreen{
     HIGH SCORES
   ----------------------
 PLACE    NAME        SCORE
-  -------     ----------    ---------  
+   -------     ----------    ---------  
 
 1st     Nathan          ${SCORE}
 
