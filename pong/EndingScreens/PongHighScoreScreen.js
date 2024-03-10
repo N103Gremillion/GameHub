@@ -14,7 +14,7 @@ export default class PongHighScoreScreen{
   open(Game_Manager){
 
     // fetch values from database and compare to the given Scores
-    getScores();
+    
 
     // ending score
     const ENDINGSCORE = Game_Manager.Scores[0].getScore();
