@@ -47,11 +47,11 @@ export default class OpeningPage{
         }
 
         else if(button.tag === "SpaceInvadersButton"){
-          console.log("inside SpaceInvaders");
+          window.location.href = "../spaceInvaders/spaceInvaders.html"; 
         }
 
         else if(button.tag === "SnakeButton"){
-          console.log("inside Snake");
+          window.location.href = "../snake/snake.html";
         }
       });
     });

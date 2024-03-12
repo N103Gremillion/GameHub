@@ -48,6 +48,17 @@ export default class Game_Manager {
       }
       this.menu = new PongMenu();
     }
+    // SpaceInvaders
+    else if (this.game === 'SpaceInvaders'){
+      if (this.gameMode === 'SinglePlayerMode'){
+        console.log('this is spaceInvaders');
+      }
+    }
+    else if (this.game === 'Snake'){
+      if (this.gameMode === 'SinglePlayerMode'){
+        console.log('this is snake');
+      }
+    }
   }
 
   //input backgroundImage
@@ -84,7 +95,7 @@ export default class Game_Manager {
     function handleResize(Game_Manager) {
 
       //open menu to prevent bugginess with collisions and stuff
-      if (!Game_Manager.menuOpen && !Game_Manager.endingScreen){
+      if (!Game_Manager.menuOpen && !Game_Manager.endingScreen && Game_Manager.menu != undefined){
         Game_Manager.toggleMenu(Game_Manager);
       }
 
@@ -109,6 +120,7 @@ export default class Game_Manager {
         });
         // when the menu is open update location and sizes of buttons
         if (Game_Manager.menuOpen){
+          console.log(Game_Manager.menuOpen);
           Game_Manager.menu.buttons.forEach(button => {
             button.adjust(Game_Manager.canvas.width, Game_Manager.canvas.height, oldCanvasWidth, oldCanvasHeight);
           });

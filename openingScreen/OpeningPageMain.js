@@ -7,32 +7,27 @@ import OpeningPage from "./OpeningPage.js";
 const Opening = new OpeningPage("openingCanvas");
 
 const PongButtonSprites = ["../OpeningPageSprites/pongButton.png", "../OpeningPageSprites/pongButtonHovering.png"];
-const CommingSoonSprites1 = ["../OpeningPageSprites/commingSoonButton.png", "../OpeningPageSprites/commingSoonButtonHovering1.png"];
-const CommingSoonSprites2 = ["../OpeningPageSprites/commingSoonButton.png", "..//OpeningPageSprites/commingSoonButtonHovering2.png"];
+const SpaceInvadersButtonSprites = ["../OpeningPageSprites/spaceInvadersLoginButtonStill.jpg", "../OpeningPageSprites/spaceInvadersLoginButton.jpg"];
+const SnakeButtonSprites = ["../OpeningPageSprites/snakeLoginButtonStill.jpg", "../OpeningPageSprites/snakeLoginButton.jpg"];
 
 Opening.setup((buttons) => {
 
   //pong button 
   let PongButtonX = window.innerWidth * .425;
   let PongButtonY = window.innerHeight * .20;
+  let SpaceInvadersButtonX = window.innerWidth * .30;
+  let SpaceInvadersButtonY = window.innerHeight * .50;
+  let SnakeButtonX = window.innerWidth * .55;
+  let SnakeButtonY = window.innerHeight * .50;
   let ButtonWidth = window.innerWidth * .15;
   let ButtonHeight = window.innerHeight * .20;
-  let Game2ButtonX = window.innerWidth * .30;
-  let Game2ButtonY = window.innerHeight * .50;
-  let Game2ButtonWidth = window.innerWidth * .15;
-  let Game2ButtonHeight = window.innerHeight * .20;
-  let Game3ButtonX = window.innerWidth * .55;
-  let Game3ButtonY = window.innerHeight * .50;
-  let Game3ButtonWidth = window.innerWidth * .15;
-  let Game3ButtonHeight = window.innerHeight * .20;
-
 
   let pongButton = new Button(PongButtonX, PongButtonY, ButtonWidth, ButtonHeight, PongButtonSprites, "PongButton");
-  let game2Button = new Button(Game2ButtonX, Game2ButtonY, Game2ButtonWidth, Game2ButtonHeight, CommingSoonSprites1, "SpaceInvadersButton"); 
-  let game3Button = new Button(Game3ButtonX, Game3ButtonY, Game3ButtonWidth, Game3ButtonHeight, CommingSoonSprites2, "SnakeButton");
+  let spaceInvadersButton = new Button(SpaceInvadersButtonX, SpaceInvadersButtonY, ButtonWidth, ButtonHeight, SpaceInvadersButtonSprites, "SpaceInvadersButton"); 
+  let snakeButton = new Button(SnakeButtonX, SnakeButtonY, ButtonWidth, ButtonHeight, SnakeButtonSprites, "SnakeButton");
   buttons.push(pongButton); 
-  buttons.push(game2Button);
-  buttons.push(game3Button);
+  buttons.push(spaceInvadersButton);
+  buttons.push(snakeButton);
 });
 
 //check for input on buttons and resizing
