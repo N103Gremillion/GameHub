@@ -1,6 +1,5 @@
 import Button from "../../Button.js";
 import TextBox from "../../TextBox.js";
-import getScores from "./requestScores.js"; 
 
 export default class PongHighScoreScreen{
   
@@ -13,9 +12,10 @@ export default class PongHighScoreScreen{
 
   open(Game_Manager){
 
-    // fetch values from database and compare to the given Scores
-    
-
+    let playerName = prompt("eneter your name (max of 5 characters)");
+    const PLAYERNAME = playerName.substring(0, 5);
+    console.log(playerName);
+             
     // ending score
     const ENDINGSCORE = Game_Manager.Scores[0].getScore();
     const ENDINGSCREENBACKGROUND = "http://Localhost/pong/pongSprites/superBackground.gif";
@@ -26,10 +26,10 @@ export default class PongHighScoreScreen{
     Game_Manager.ctx.clearRect(0, 0, Game_Manager.canvas.width, Game_Manager.canvas.height);
     Game_Manager.ctx.drawImage(Game_Manager.backgroundImage, 0, 0, Game_Manager.canvas.width, Game_Manager.canvas.height);   
     // add component to page
-    this.addElements(Game_Manager, ENDINGSCORE);
+    this.addElements(Game_Manager, ENDINGSCORE, PLAYERNAME);
   }
 
-  addElements(Game_Manager, SCORE){
+  addElements(Game_Manager, SCORE, NAME){
 
     // exit button values
     const exitButtonX = Game_Manager.canvas.width * 0.4;
@@ -51,7 +51,7 @@ export default class PongHighScoreScreen{
 PLACE    NAME        SCORE
    -------     ----------    ---------  
 
-1st     Nathan          ${SCORE}
+1st       ${NAME}          ${SCORE}
 
 2nd
 
