@@ -22,6 +22,8 @@ export default class Game_Manager {
     this.gameMode;
     this.game;
     this.endingScreenPage;
+    // for space invaders
+    this.backgroundScreenY = 0;
   }
   
   // necessary to run this before setting up game so that the canvas is defined and can be drawn on
@@ -161,6 +163,10 @@ export default class Game_Manager {
     this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
     //update game
     if (!this.menuOpen && !this.endingScreen){
+      // update the background only for the spaceInvaders game
+      if (this.game === 'SpaceInvaders'){
+        this.moveBackground();
+      }
       this.gameObjects.forEach((element) => {
         element.update();
       });
@@ -257,6 +263,23 @@ export default class Game_Manager {
     }
     else{
       this.menu.close(Game_Manager, Game_Manager.menu.buttons);
+    }
+  }
+
+  // move the background (this is specific to the SpaceInvaders background)
+  moveBackground(){    
+    // draw the top part
+    this.ctx.drawImage(this.backgroundImage, 0, this.backgroundScreenY, this.canvas.width, this.canvas.height * - 1);
+    
+    // Draw the remaining portion of the background at the bottom
+    this.ctx.drawImage(this.backgroundImage, 0, this.backgroundScreenY, this.canvas.width, this.canvas.height);
+  
+    this.backgroundScreenY++;
+
+    // Check if the background has moved beyond its height
+    if (this.backgroundScreenY >= this.canvas.height) {
+        // Reset the background position
+        this.backgroundScreenY = 0;
     }
   }
   

@@ -7,9 +7,14 @@ Manager.setCanvasById('SpaceInvadersCanvas', 'SinglePlayerMode', 'SpaceInvaders'
 // setup the game objects
 
 //set background
-const SPACEBACKGROUND = './sprites/spaceInvadersBackground.png';
-const COLLISIONTAGS = [];
-Manager.loadBackgroundImage(SPACEBACKGROUND, COLLISIONTAGS)
+const SPACEBACKGROUND = ['./sprites/spaceInvadersBackground.png'];
+const COLLISIONTAGS = []
+
+Manager.loadBackgroundImage(SPACEBACKGROUND, COLLISIONTAGS);
 
 // start reading input from keyboardMapping constants
 Manager.inputHandling(InputMapping, Manager);
+
+
+// start the game loop
+Manager.startGame(COLLISIONTAGS);
