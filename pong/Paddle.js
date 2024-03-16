@@ -4,7 +4,7 @@ import { Manager } from "../Game_Manager.js";
 
 export default class Paddle extends Game_Object {
   constructor(width, height,velocity,x,y, spriteArray, collisionSpriteArray, UP, DOWN, tag, soundList, name){
-    super(x,y, tag);
+  super(x,y, tag);
     this.image = new Image();
     // default to the 1st sprite in the list
     this.spriteArray =  spriteArray;
