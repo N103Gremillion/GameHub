@@ -1,5 +1,6 @@
 import { Manager } from "../Game_Manager.js";
 import { InputMapping } from "../KeyboardMapping.js";
+import Spaceship from "./Spaceship.js";
 
 
 //set the canvas for this game
@@ -18,8 +19,11 @@ Manager.setup((gameObjects, gameScores, Game_Manager) => {
   let CANVAS_HEIGHT = Game_Manager.canvas.height;
   let spaceshipX = CANVAS_WIDTH * 0.5;
   let spaceshipY = CANVAS_HEIGHT* 0.9;
+  let spaceshipWidth = CANVAS_WIDTH * 0.05;
+  let spaceshipHeight = CANVAS_HEIGHT * 0.05;
   const SPACESHIPTAG = "Spaceship";
-  gameObjects.push(new 
+  const SPCAESHIPSPRITES = ['','',''];
+  gameObjects.push(new Spaceship(spaceshipX, spaceshipY, spaceshipWidth, spaceshipHeight, SPACESHIPTAG, ));
 });
 
 // start reading input from keyboardMapping constants
