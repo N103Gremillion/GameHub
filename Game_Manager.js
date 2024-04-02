@@ -55,11 +55,13 @@ export default class Game_Manager {
       if (this.gameMode === 'SinglePlayerMode'){
         console.log('this is spaceInvaders');
       }
+      this.menu = new PongMenu();
     }
     else if (this.game === 'Snake'){
       if (this.gameMode === 'SinglePlayerMode'){
         console.log('this is snake');
       }
+      this.menu = new PongMenu();
     }
   }
 

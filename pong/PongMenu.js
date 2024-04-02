@@ -1,5 +1,6 @@
 import Button from "../Button.js";
 import TextBox from "../TextBox.js";
+import { Manager } from "../Game_Manager.js";
 
 export default class PongMenu{
 
@@ -24,7 +25,7 @@ export default class PongMenu{
     const PlayButtonWidth = CANVAS_WIDTH * 0.2;
     const PlayButtonHeight = CANVAS_HEIGHT * 0.1;
     const PlayButtonTag = "PlayButton";
-    const PlayButtonSprites = ["./pongSprites/PongMenu/Play3.png", "./pongSprites/PongMenu/Play1.png"];
+    const PlayButtonSprites = ["/pong/pongSprites/PongMenu/Play3.png", "/pong/pongSprites/PongMenu/Play1.png"];
 
     //Options Button values
     const OptionsButtonX = CANVAS_WIDTH * 0.4;
@@ -32,7 +33,7 @@ export default class PongMenu{
     const OptionsButtonWidth = CANVAS_WIDTH * 0.2;
     const OptionsButtonHeight = CANVAS_HEIGHT * 0.1;
     const OptionsButtonTag = "OptionsButton";
-    const OptionsButtonSprites = ["./pongSprites/PongMenu/Options3.png", "./pongSprites/PongMenu/Options1.png"];
+    const OptionsButtonSprites = ["/pong/pongSprites/PongMenu/Options3.png", "/pong/pongSprites/PongMenu/Options1.png"];
 
     //Quit Button values
     const QuitButtonX = CANVAS_WIDTH * 0.4;
@@ -40,7 +41,7 @@ export default class PongMenu{
     const QuitButtonWidth = CANVAS_WIDTH * 0.2;
     const QuitButtonHeight = CANVAS_HEIGHT * 0.1;
     const QuitButtonTag = "QuitButton";
-    const QuitButtonSprites = ["./pongSprites/PongMenu/Quit3.png", "./pongSprites/PongMenu/Quit1.png"];
+    const QuitButtonSprites = ["/pong/pongSprites/PongMenu/Quit3.png", "/pong/pongSprites/PongMenu/Quit1.png"];
 
     this.buttons.push(new Button(PlayButtonX, PlayButtonY, PlayButtonWidth, PlayButtonHeight, PlayButtonSprites, PlayButtonTag));
     this.buttons.push(new Button(OptionsButtonX, OptionsButtonY, OptionsButtonWidth, OptionsButtonHeight, OptionsButtonSprites, OptionsButtonTag));
@@ -106,7 +107,7 @@ Leader-board (the ball slowly gets faster over time)
     const CloseButtonY = Game_Manager.canvas.height * 0.2;
     const CloseButtonWidth = Game_Manager.canvas.width * 0.04;
     const CloseButtonHeight = Game_Manager.canvas.height * 0.06;
-    const CloseButtonSprites = ["./pongSprites/PongMenu/CloseButton.png", "./pongSprites/PongMenu/CloseButtonHovering.png"];
+    const CloseButtonSprites = ["/pong/pongSprites/PongMenu/CloseButton.png", "/pong/pongSprites/PongMenu/CloseButtonHovering.png"];
     const CloseButtonTag = "CloseButton";
 
     //create the Options box and display appropriate text
@@ -165,7 +166,12 @@ Leader-board (the ball slowly gets faster over time)
           this.toggleOptionsOpen(Game_Manager);
         }
         else if (button.tag === "QuitButton"){
-          window.location.href = "./PongSelectionScreen/PongSelection.html";
+          if (Manager.game === "Pong"){
+            window.location.href = "./PongSelectionScreen/PongSelection.html";
+          }
+          else{
+            window.location.href = "../index.html";
+          }
         }
         else if (button.tag === "CloseButton"){
           this.toggleOptionsOpen(Game_Manager, this.buttons, this.textBoxes)
