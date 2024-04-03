@@ -1,30 +1,31 @@
-import Game_Object from "../Game_Object";
-import { Manager } from "../Game_Manager";
-import { InputMapping } from "../KeyboardMapping";
+import Game_Object from "../Game_Object.js";
+import { Manager } from "../Game_Manager.js";
+import { InputMapping } from "../KeyboardMapping.js";
 
-export class Bullets extends Game_Object{
+export default class Bullet extends Game_Object{
 
-  Bullets(x, y, width, height, tag, spriteList){
+  constructor(x, y, width, height, tag, spriteList){
     super(x, y , tag);
     this.width = width;
     this.height = height;
     this.image = new Image();
     this.image.src = spriteList[0];
     this.spriteList = spriteList;
-    this.velocity = window.innerHeight/200;
+    this.velocity = 1;
+    //this.velocity = window.innerHeight/200;
   }
   
   update(){
-    if (position.y < 0){
-       position.y += velocity;
+    console.log(this.position.y);
+    if (this.position.y < 0){
+      Manager.Bullets.shift(); 
     }
     else{
-      let index = Manager.gameObjects.indexOf(this);
-      Manager.gameObjects.splice(index, 1);    
+      this.position.y -= this.velocity;
     }
   }
 
-  render(){
-
+  render(ctx){
+    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
   }
 }

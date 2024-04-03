@@ -101,6 +101,35 @@ Single Player
 Get the Highest Combo and get on the 
 Leader-board (the ball slowly gets faster over time)
 `;
+      const SpaceInvadersGameInstructions = 
+`CONTROLS
+
+Escape: Close/Open Menu
+
+D: right
+A: left
+
+RULES
+
+shoot as many space ships as possible before dieing;
+you have 3 lives before you die;
+
+`;
+      const SnakeGameInstructions = 
+`CONTROLS
+
+Escape: Close/Open Menu
+
+D: right
+A: left
+W: up
+S: down
+
+RULES
+
+Eat as many apples as possible without hitting the edges our the snakes body;
+The more apples eaten the higher the score;
+`;
 
     //values for the close button
     const CloseButtonX = Game_Manager.canvas.width * 0.3;
@@ -111,7 +140,15 @@ Leader-board (the ball slowly gets faster over time)
     const CloseButtonTag = "CloseButton";
 
     //create the Options box and display appropriate text
-    this.textBoxes.push(new TextBox(OptionsX, OptionsY, OptionsWidth, OptionsHeight, OptionsTag, PongGameInstructions));
+    if (Manager.game == 'Pong'){
+      this.textBoxes.push(new TextBox(OptionsX, OptionsY, OptionsWidth, OptionsHeight, OptionsTag, PongGameInstructions));
+    }
+    else if (Manager.game == 'SpaceInvaders'){
+      this.textBoxes.push(new TextBox(OptionsX, OptionsY, OptionsWidth, OptionsHeight, OptionsTag, SpaceInvadersGameInstructions));
+    }
+    else if (Manager.game == 'Snake'){
+      this.textBoxes.push(new TextBox(OptionsX, OptionsY, OptionsWidth, OptionsHeight, OptionsTag, SnakeGameInstructions));
+    }
     this.buttons.push(new Button(CloseButtonX, CloseButtonY, CloseButtonWidth, CloseButtonHeight, CloseButtonSprites, CloseButtonTag));
 
      this.checkUserInput(this.buttons, Game_Manager);

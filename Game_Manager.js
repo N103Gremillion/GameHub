@@ -13,7 +13,7 @@ export default class Game_Manager {
     this.menuOpen = false;
     this.endingScreen = false;
     this.gameObjects = []; 
-    this.Scores = [];
+    this.Scores = []; 
     this.backgroundMusic = new Audio();
     this.canvas;
     this.ctx;
@@ -23,6 +23,8 @@ export default class Game_Manager {
     this.game;
     this.endingScreenPage;
     // for space invaders
+    this.Enemies = [];
+    this.Bullets = [];
     this.backgroundScreenY = 0;
   }
   
@@ -172,6 +174,9 @@ export default class Game_Manager {
       this.gameObjects.forEach((element) => {
         element.update();
       });
+      this.Bullets.forEach((element) => {
+        element.update();
+      });
       this.performCollisionChecking(tagsToCheck);
     }
 
@@ -184,6 +189,16 @@ export default class Game_Manager {
     this.Scores.forEach((element) => {
       element.render(this.ctx);
     });
+
+    // for space invaders
+    this.Bullets.forEach((element) => {
+      element.render(this.ctx);
+    });
+
+    this.Enemies.forEach(enemy =>{
+      enemy.render(this.ctx);
+    });
+
 
     //check if menu is open
     if (this.menuOpen){

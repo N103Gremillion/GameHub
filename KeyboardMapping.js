@@ -1,4 +1,5 @@
 export const InputMapping = {
+  ' ': false,
   'backspace': false,
   'tab': false,
   'enter': false,
